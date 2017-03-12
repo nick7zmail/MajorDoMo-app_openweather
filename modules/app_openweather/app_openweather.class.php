@@ -302,17 +302,20 @@ class app_openweather extends module
       }
    }
 	function processSubscription($event_name, $details='') {
-	  if ($event_name=='HOURLY') {
+		if ($event_name=='HOURLY') {
 			$updateTime = gg('ow_setting.updateTime');
 			if($updateTime > 0) {
 				$count = gg('ow_setting.countTime'); 
 				if($count >= $updateTime){
 					$this->get_weather(gg('ow_city.id'));
 					sg('ow_setting.countTime', 1);
+				} else {
+					$count++;
+					sg('ow_setting.countTime', $count);
 				}
 			}
-	  }
-	 }
+		}
+	}
    /**
     * Получение погоды по ID города
     * @param int $cityID ID города  
