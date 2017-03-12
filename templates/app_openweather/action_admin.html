@@ -1,0 +1,22 @@
+<big><#LANG_OW_APP_NAME#></big>
+<ul class="nav nav-tabs">     
+   <li [#if VIEW_MODE="" #] class="active" [#endif#]><a href="?view_mode="><#LANG_OW_TAB_WEATHER#></a></li>
+   <li [#if VIEW_MODE="setting" #] class="active" [#endif#]><a href="?view_mode=setting"><#LANG_OW_TAB_SETTINGS#></a></li>
+   <li [#if VIEW_MODE="help" #] class="active" [#endif#]><a href="?view_mode=help"><#LANG_OW_TAB_HELP#></a></li>
+</ul>
+<br />
+[#if VIEW_MODE=""#]
+   [#inc view_weather.html#]
+[#endif VIEW_MODE#]
+
+[#if VIEW_MODE="setting"#]
+   [#inc setting.html#]
+[#endif VIEW_MODE#]
+
+[#if VIEW_MODE="help"#]
+   [#inc help.html#]
+[#endif VIEW_MODE#]
+
+[#if VIEW_MODE="getCityId"#]
+   [#inc get_cityId.html#]
+[#endif VIEW_MODE#]

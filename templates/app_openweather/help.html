@@ -1,0 +1,24 @@
+<div class="list-group">
+   <h4 class="list-group-item-heading"><#LANG_OW_HELP_CALL_MODULE_MENU_TITLE#></h4>
+   <div class="list-group-item-text">
+      <code style="display:block">
+         <b>&#091#module name="app_openweather"#&#093 </b> - <#LANG_OW_HELP_DISPLAY_INFO_CUR_WEATHER#><br />
+         <b>&#091#module name="app_openweather" forecast="0"#&#093 </b> - <#LANG_OW_HELP_DISPLAY_INFO_CUR_WEATHER_FORECAST#><br />
+         <b>&#091#module name="app_openweather" fact="off" forecast="1"#&#093</b> - <#LANG_OW_HELP_DISPLAY_INFO_FORECAST_1DAY#><br />
+         <span style="padding-left:1em;display:block;">
+            forecast="0" - <#LANG_OW_HELP_DISPLAY_INFO_FORECAST_0DAY#><br />
+            forecast="1" - <#LANG_OW_HELP_DISPLAY_INFO_FORECAST_1DAY#><br />
+            forecast="2" - <#LANG_OW_HELP_DISPLAY_INFO_FORECAST_2DAY#><br />
+         </span>
+      </code>
+   </div>
+   <br />
+   <h4 class="list-group-item-heading"><#LANG_OW_HELP_RUNSCRIPT_TITLE#></h4>
+   <div class="list-group-item-text">
+      <code style="display:block">
+         include_once(DIR_MODULES . 'app_openweather/app_openweather.class.php');<br />
+         $openweather = new app_openweather();<br />
+         $openweather->get_weather(gg('ow_city.id'));
+      </code>
+   </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="form-group">
+   <#LANG_OW_CITY_TITLE#>:&nbsp;<strong>[#ow_city#]</strong>&nbsp;&nbsp;
+      <a href="?ow_subm=getCityId" class="btn btn-default btn-sm" title="<#LANG_OW_CHANGE_CITY#>"><span class="glyphicon glyphicon-edit"></span></a>
+</div>
+<form action="?" method="get" class="form-horizontal" name="save_setting">
+   <div class="form-group">
+      <div class="checkbox">[#imgCache#]
+         <label>
+            <input type="checkbox" name="ow_imagecache" [#if ow_imagecache="off" #] [#else#] checked[#endif#] /><#LANG_OW_FLAG_USE_IMAGE_CACHE#>
+         </label>
+      </div>
+   </div>
+
+   <div class="form-group">
+      <label class="col-md-3"><#LANG_OW_FORECAST_PERIOD_TITLE#></label>
+      <div class="col-md-2">
+         <select class="form-control" name="ow_forecast_interval">
+            <option value="0" [#if forecast_interval="0" #] selected[#endif#]>----</option>
+            <option value="1" [#if forecast_interval="1" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_1DAY#></option>
+            <option value="2" [#if forecast_interval="2" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_2DAY#></option>
+            <option value="3" [#if forecast_interval="3" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_3DAY#></option>
+            <option value="4" [#if forecast_interval="4" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_4DAY#></option>
+            <option value="5" [#if forecast_interval="5" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_5DAY#></option>
+            <option value="6" [#if forecast_interval="6" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_6DAY#></option>
+            <option value="7" [#if forecast_interval="7" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_7DAY#></option>
+            <option value="8" [#if forecast_interval="8" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_8DAY#></option>
+            <option value="9" [#if forecast_interval="9" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_9DAY#></option>
+            <option value="10" [#if forecast_interval="10" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_10DAY#></option>
+            <option value="11" [#if forecast_interval="11" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_11DAY#></option>
+            <option value="12" [#if forecast_interval="12" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_12DAY#></option>
+            <option value="13" [#if forecast_interval="13" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_13DAY#></option>
+            <option value="14" [#if forecast_interval="14" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_14DAY#></option>
+            <option value="15" [#if forecast_interval="15" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_15DAY#></option>
+            <option value="16" [#if forecast_interval="16" #] selected[#endif#]><#LANG_OW_FORECAST_PERIOD_16DAY#></option>
+         </select>
+      </div>
+   </div>
+
+   <div class="form-group">
+      <label class="col-md-3"><#LANG_OW_UPDATE_PERIOD#></label>
+      <div class="col-md-2">
+         <select class="form-control" name="ow_update_interval">
+            <option value="0" [#if updatetime="0" #] selected[#endif#]>----</option>
+            <option value="1" [#if updatetime="1" #] selected[#endif#]><#LANG_OW_UPDATE_PERIOD_1HOUR#></option>
+            <option value="2" [#if updatetime="2" #] selected[#endif#]><#LANG_OW_UPDATE_PERIOD_2HOUR#></option>
+            <option value="3" [#if updatetime="3" #] selected[#endif#]><#LANG_OW_UPDATE_PERIOD_3HOUR#></option>
+            <option value="4" [#if updatetime="4" #] selected[#endif#]><#LANG_OW_UPDATE_PERIOD_4HOUR#></option>
+            <option value="5" [#if updatetime="5" #] selected[#endif#]><#LANG_OW_UPDATE_PERIOD_5HOUR#></option>
+         </select>
+      </div>
+   </div>
+
+   <div class="form-group">
+      <label class="col-md-3"><#LANG_OW_EXECUTE_AFTER_UPDATE#></label>
+      <div class="col-md-4">
+         <input type="text" name="ow_script" class="form-control" placeholder="<#LANG_OW_SCRIPT_NAME#>" value="[#script#]">
+      </div>
+   </div>
+
+   <div class="form-group">
+      <label class="col-md-3"><#LANG_OW_API_KEY#></label>
+      <div class="col-md-4">
+         <input type="text" name="ow_api_key" class="form-control" placeholder="<#LANG_OW_API_KEY#>" value="[#ow_api_key#]">
+      </div>
+   </div>
+   
+   <div class="form-group">
+      <a href="?" class="btn btn-default"><#LANG_CANCEL#></a>
+      <button type="submit" name="ow_subm" value="setting" class="btn btn-primary"><#LANG_SUBMIT#></button>
+   </div>
+</form>
