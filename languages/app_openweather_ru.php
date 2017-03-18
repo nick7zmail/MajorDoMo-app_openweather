@@ -68,7 +68,9 @@ $dictionary = array(
 'OW_SUNINFO_DAY_LENGTH' => 'Долгота дня',
 'OW_SUNINFO_DAY_SUNRISE_SUNSET' => 'Восход/заход солнца',
 'OW_API_KEY' => 'Ключ API',
-
+'OW_CITYNAME' => 'Имя города',
+'OW_CITYID' => 'ID города',
+'OW_FIND_CITY' => 'Найти свой город'
 
 /* end module names */
 );
