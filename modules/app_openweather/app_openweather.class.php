@@ -447,9 +447,11 @@ class app_openweather extends module
       global $ow_api_key;
 	  global $ow_city_id;
       global $ow_city_name;
-     
-      if(isset($ow_city_id))  sg('ow_city.id', $ow_city_id);
-      if(isset($ow_city_name))   sg('ow_city.name', $ow_city_name);
+      global $ow_city_lat;
+      global $ow_city_lon;
+	  
+      if(isset($ow_city_lat))  sg('ow_city.lat', $ow_city_lat);
+      if(isset($ow_city_lon))   sg('ow_city.lon', $ow_city_lon);
 	
       if(!isset($ow_imagecache)) $ow_imagecache = 'off';
       if(isset($ow_script)) sg('ow_setting.updScript', $ow_script);
@@ -482,6 +484,8 @@ class app_openweather extends module
    {
       $out["ow_city_name"] = gg('ow_city.name');
 	  $out["ow_city_id"] = gg('ow_city.id');
+	  $out["ow_city_lat"] = gg('ow_city.lat');
+	  $out["ow_city_lon"] = gg('ow_city.lon');
       $out["ow_imagecache"] = gg('ow_setting.ow_imagecache');
       $out["updatetime"] = gg('ow_setting.updatetime');
       $out["script"] = gg('ow_setting.updScript');
@@ -646,16 +650,12 @@ class app_openweather extends module
    public function GetSunInfoByCityID($cityID, $timeStamp = -1)
    {
       if($timeStamp == '' or $timeStamp == -1)
-         $timeStamp = time(); 
+         $timeStamp = time();
       
-      $id = intval($cityID);
-      $rec = SQLSelectOne("select CITY_NAME, CITY_LAT, CITY_LNG from OPENWEATHER_CITY where CITY_ID = " . $id); 
-      
-      if (!isset($rec["CITY_LAT"]) || !isset($rec["CITY_LNG"]))
+      if (gg('ow_city.lat')!='' || gg('ow_city.lon')!='')
          return FALSE;
       
-      $info = $this->GetSunInfoByGeoCoord($rec["CITY_LAT"], $rec["CITY_LNG"], $timeStamp);
-      
+      $info = $this->GetSunInfoByGeoCoord(gg('ow_city.lat'), gg('ow_city.lon'), $timeStamp);
       return $info;
    }
 
