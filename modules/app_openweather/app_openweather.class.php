@@ -498,7 +498,7 @@ class app_openweather extends module
       $out["ow_city"] = gg('ow_city.name');
       $out["ow_imagecache"] = gg('ow_setting.ow_imagecache');
       $out["updatetime"] = gg('ow_setting.updatetime');
-      $out["script"] = gg('ow_setting.countTime');
+      $out["script"] = gg('ow_setting.updScript');
       $out["forecast_interval"] = gg('ow_setting.forecast_interval');
       $out["ow_api_key"] = gg('ow_setting.api_key');
    }
