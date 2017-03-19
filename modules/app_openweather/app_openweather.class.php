@@ -223,9 +223,9 @@ class app_openweather extends module
          $out["FACT"]["pressure_mmhg"] = app_openweather::ConvertPressure(gg('ow_fact.pressure'),"hpa", "mmhg");
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
          
-         $out["FACT"]["sunrise"]       = date("H:i:s", strtotime(gg('ow_fact.sunrise')));
-         $out["FACT"]["sunset"]        = date("H:i:s", strtotime(gg('ow_fact.sunset')));
-         $out["FACT"]["day_length"]    = gmdate("H:i", strtotime(gg('ow_fact.day_length')));
+         $out["FACT"]["sunrise"]       = date("H:i:s", gg('ow_fact.sunrise'));
+         $out["FACT"]["sunset"]        = date("H:i:s", gg('ow_fact.sunset'));
+         $out["FACT"]["day_length"]    = gmdate("H:i", gg('ow_fact.day_length'));
       }
 
       $forecast = $forecast-1;
@@ -273,11 +273,10 @@ class app_openweather extends module
             $out["FORECAST"][$i]["rain"]          = gg('ow_day'.$i.'.rain');
             $out["FORECAST"][$i]["snow"]          = gg('ow_day'.$i.'.snow');
             $out["FORECAST"][$i]["freeze"]        = self::GetFreezePossibility($dayTemp, $eveTemp);
-            
-            
-            $out["FORECAST"][$i]["sunrise"]    = date("H:i:s", strtotime(gg('ow_day'.$i.'.sunrise')));
-            $out["FORECAST"][$i]["sunset"]     = date("H:i:s", strtotime(gg('ow_day'.$i.'.sunset')));
-            $out["FORECAST"][$i]["day_length"] = gmdate("H:i", strtotime(gg('ow_day'.$i.'.day_length'))); 
+			
+            $out["FORECAST"][$i]["sunrise"]    = date("H:i:s", gg('ow_day'.$i.'.sunrise'));
+            $out["FORECAST"][$i]["sunset"]     = date("H:i:s", gg('ow_day'.$i.'.sunset'));
+            $out["FORECAST"][$i]["day_length"] = gmdate("H:i", gg('ow_day'.$i.'.day_length')); 
          }
       }
    }
@@ -333,7 +332,7 @@ class app_openweather extends module
          $sunRise = $sunInfo["sunrise"];
          $sunSet = $sunInfo["sunset"];
          $dayLength = $sunSet - $sunRise;
-         
+
          sg('ow_fact.sunrise', $sunRise);
          sg('ow_fact.sunset', $sunSet);
          sg('ow_fact.day_length', $dayLength);
@@ -635,9 +634,8 @@ class app_openweather extends module
          DebMes("CityCoords not found");
          return FALSE;
       }
-      
       $info = date_sun_info($timeStamp, $cityLat, $cityLong);
-      
+	  
       return $info;
    }
    
@@ -649,13 +647,15 @@ class app_openweather extends module
     */
    public function GetSunInfoByCityID($cityID, $timeStamp = -1)
    {
+	  $cityLat=gg('ow_city.lat');
+	  $cityLong=gg('ow_city.lon');
       if($timeStamp == '' or $timeStamp == -1)
          $timeStamp = time();
       
-      if (gg('ow_city.lat')!='' || gg('ow_city.lon')!='')
+	  if (!isset($cityLat) || !isset($cityLong))
          return FALSE;
       
-      $info = $this->GetSunInfoByGeoCoord(gg('ow_city.lat'), gg('ow_city.lon'), $timeStamp);
+      $info = $this->GetSunInfoByGeoCoord($cityLat, $cityLong, $timeStamp);
       return $info;
    }
 
