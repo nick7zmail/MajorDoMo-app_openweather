@@ -449,6 +449,9 @@ class app_openweather extends module
       global $ow_city_lat;
       global $ow_city_lon;
 	  
+	  
+	  if(isset($ow_city_id))  sg('ow_city.id', $ow_city_id);
+	  if(isset($ow_city_name))  sg('ow_city.name', $ow_city_name);
       if(isset($ow_city_lat))  sg('ow_city.lat', $ow_city_lat);
       if(isset($ow_city_lon))   sg('ow_city.lon', $ow_city_lon);
 	
