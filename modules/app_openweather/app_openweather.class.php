@@ -138,11 +138,21 @@ class app_openweather extends module
    {
       global $ow_subm;
       
-      if($ow_subm == 'setting')
+      if($ow_subm == 'setCityId')
+      {
+         $this->save_cityId();
+         $this->view_mode = "setting";
+      }
+      else if($ow_subm == 'setting')
       {
          $this->save_setting();
          $this->get_weather(gg('ow_city.id'));
          $this->view_mode = "";
+      }
+	  else if($ow_subm == 'getCityId')
+      {
+         $this->view_mode = "getCityId";
+         $this->get_cityId($out);
       }
       else if($ow_subm == 'getWeather')
       {
@@ -160,10 +170,19 @@ class app_openweather extends module
             $out["ow_data_update"] = gg('ow_city.data_update');
             $this->view_weather($out);
          }
+		 else
+         {
+            $this->view_mode = "getCityId";
+            $this->get_cityId($out);
+         }
       }
       else if($this->view_mode == 'setting')
       {
          $this->get_setting($out);
+      }
+	  else if($this->view_mode == 'getCityId')
+      {
+         $this->get_cityId($out);
       }
    }
    
@@ -495,8 +514,52 @@ class app_openweather extends module
       $out["ow_api_key"] = gg('ow_setting.api_key');	  
    }
 
-
+public function get_cityId(&$out)
+   {
+      global $country;
+      if (!isset($country)) $country = '';
+	  $data = getURL('http://openweathermap.org/help/city_list.txt');
+	  $out["country"]=$country;
+      if (count($data) <= 0) return;
+      $dataArray = explode("\n", $data);
+		  foreach($dataArray as $row) 
+		  {
+			 $city = explode("\t", $row); 
+			 if ($country==$city[4]) {
+				 if ($city[0] == "id" || ($city[0] == "")) continue;
+				 $arr["CITY_ID"] = $city[0];
+				 $arr["CITY_NAME"] = $city[1];
+				 $arr["CITY_LAT"] = $city[2];
+				 $arr["CITY_LNG"] = $city[3];
+				 $out["ow_city"] .= '<option value = "' .  $arr["CITY_ID"] . '">' . $arr["CITY_NAME"] . '</option>';
+			 }
+		  }
+		$out["ow_city"] .= '<option value="0" [#if city_id="none"#] selected[#endif#]>--'. constant('LANG_OW_CHOOSE_CITY') . '--</option>';
+		$out["city_id"]="none";
+   }
    
+public function save_cityId()
+   {
+      global $ow_city_id;
+     
+      if(isset($ow_city_id) && $ow_city_id != 0)
+      {
+		$data = getURL('http://openweathermap.org/help/city_list.txt');
+		if (count($data) <= 0) return;
+		$dataArray = explode("\n", $data);	
+		  foreach($dataArray as $row) 
+		  {
+			 $city = explode("\t", $row); 
+			 if ($ow_city_id==$city[0]) {
+				if ($city[0] == "id" || ($city[0] == "")) continue;
+				sg('ow_city.id', $city[0]);
+				sg('ow_city.name', $city[1]);
+				sg('ow_city.lat', $city[2]);
+				sg('ow_city.lon', $city[3]); 
+			 }
+		  }
+      }
+   }  
    /**
     * Get Weather data from openweathermap.org by city id
     * @param mixed $cityID City ID

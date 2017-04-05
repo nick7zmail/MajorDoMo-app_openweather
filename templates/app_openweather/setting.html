@@ -1,39 +1,38 @@
    
 <form action="?" method="get" class="form-horizontal" name="save_setting">
    <div class="form-group">
-      <label class="col-md-3"><#LANG_OW_CITYNAME#></label>
+      <label class="col-md-3"><#LANG_OW_CITYNAME#>:</label>
       <div class="col-md-4">
-         <input type="text" name="ow_city_name" class="form-control" placeholder="<#LANG_OW_CITYNAME#>" value="[#ow_city_name#]">
+         <input type="text" name="ow_city_name" class="form-control" placeholder="<#LANG_OW_CITYNAME#>" value="[#ow_city_name#]" disabled>
+      </div>
+	  <div class="col-md-4">
+         <a href="?ow_subm=getCityId" class="btn btn-default btn-sm" title="<#LANG_OW_CHANGE_CITY#>"><span class="glyphicon glyphicon-edit"></span></a>
       </div>
    </div>
    <div class="form-group form-inline">
-      <label class="col-md-3"><#LANG_OW_CITYID#></label>
+      <label class="col-md-3"><#LANG_OW_CITYID#>:</label>
 	  <div class="col-md-4">
-         <input type="text" name="ow_city_id" class="form-control" placeholder="<#LANG_OW_CITYID#>" value="[#ow_city_id#]">
-      </div>
-	  <div class="col-md-4">
-         <a href=" http://openweathermap.org/help/city_list.txt" target="_blank" class="btn btn-primary"><#LANG_OW_FIND_CITY#></a>
+         <input type="text" name="ow_city_id" class="form-control" placeholder="<#LANG_OW_CITYID#>" value="[#ow_city_id#]" disabled>
       </div>
    </div>
    <div class="form-group form-inline">
       <label class="col-md-3">LAT:</label>
 	  <div class="col-md-4">
-         <input type="text" name="ow_city_lat" class="form-control" value="[#ow_city_lat#]">
+         <input type="text" name="ow_city_lat" class="form-control" value="[#ow_city_lat#]" disabled>
       </div>
    </div>
       <div class="form-group form-inline">
       <label class="col-md-3">LON:</label>
 	  <div class="col-md-4">
-         <input type="text" name="ow_city_lon" class="form-control" value="[#ow_city_lon#]">
+         <input type="text" name="ow_city_lon" class="form-control" value="[#ow_city_lon#]" disabled>
       </div>
    </div>
-   <div class="form-group">
-      <div class="checkbox">[#imgCache#]
-         <label>
-            <input type="checkbox" name="ow_imagecache" [#if ow_imagecache="off" #] [#else#] checked[#endif#] /><#LANG_OW_FLAG_USE_IMAGE_CACHE#>
-         </label>
-      </div>
-   </div>
+	<div class="form-group">
+	   <label class="col-md-3"><#LANG_OW_FLAG_USE_IMAGE_CACHE#></label>
+	   <div class="col-lg-4">
+		<input type="checkbox" class="form-control" name="ow_imagecache" [#if ow_imagecache="off" #] [#else#] checked[#endif#] />
+	   </div>
+	</div>
 
    <div class="form-group">
       <label class="col-md-3"><#LANG_OW_FORECAST_PERIOD_TITLE#></label>
