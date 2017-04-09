@@ -33,6 +33,7 @@ $dictionary = array(
 'OW_FLAG_USE_IMAGE_CACHE' => 'Кэшировать иконки',
 'OW_CITY_TITLE' => 'Город',
 'OW_CHANGE_CITY' => 'Изменить город',
+'OW_CHANGE' => 'Изменить',
 'OW_TAB_WEATHER' => 'Погода',
 'OW_TAB_SETTINGS' => 'Настройки',
 'OW_TAB_HELP' => 'Помощь',
@@ -68,9 +69,7 @@ $dictionary = array(
 'OW_SUNINFO_DAY_LENGTH' => 'Долгота дня',
 'OW_SUNINFO_DAY_SUNRISE_SUNSET' => 'Восход/заход солнца',
 'OW_API_KEY' => 'Ключ API',
-'OW_CITYNAME' => 'Имя города',
-'OW_CITYID' => 'ID города',
-'OW_FIND_CITY' => 'Найти свой город'
+'OW_CITYNAME' => 'Имя города'
 
 /* end module names */
 );

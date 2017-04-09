@@ -33,6 +33,7 @@ $dictionary = array(
 'OW_FLAG_USE_IMAGE_CACHE' => 'Use cache for images',
 'OW_CITY_TITLE' => 'City',
 'OW_CHANGE_CITY' => 'Choose another city',
+'OW_CHANGE' => 'Change',
 'OW_TAB_WEATHER' => 'Weather',
 'OW_TAB_SETTINGS' => 'Settings',
 'OW_TAB_HELP' => 'Help',
@@ -68,9 +69,7 @@ $dictionary = array(
 'OW_SUNINFO_DAY_LENGTH' => 'Day Length',
 'OW_SUNINFO_DAY_SUNRISE_SUNSET' => 'Sunrise/Sunset',
 'OW_API_KEY' => 'API Key',
-'OW_CITYNAME' => 'City name',
-'OW_CITYID' => 'City ID',
-'OW_FIND_CITY' => 'Find city'
+'OW_CITYNAME' => 'City name'
 
 /* end module names */
 );
