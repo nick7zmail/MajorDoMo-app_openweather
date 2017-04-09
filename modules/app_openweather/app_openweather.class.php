@@ -342,7 +342,7 @@ class app_openweather extends module
       
       $date = date("d.m.Y G:i:s T Y", $curWeather->dt);
      
-      sg('ow_fact.temperature', $fact->temp);
+      sg('ow_fact.temperature', round ($fact->temp,1));
       sg('ow_fact.weather_type', $curWeather->weather[0]->description);
       sg('ow_fact.wind_direction', $curWeather->wind->deg);
       sg('ow_fact.wind_speed',$curWeather->wind->speed);
@@ -375,13 +375,13 @@ class app_openweather extends module
          $date = date("d.m.Y", $day->dt);
          sg('ow_day'.$i.'.date', $date);
          
-         sg('ow_day'.$i.'.temperature', app_openweather::GetCurrTemp($day->temp));
-         sg('ow_day'.$i.'.temp_morn', $day->temp->morn);
-         sg('ow_day'.$i.'.temp_day', $day->temp->day);
-         sg('ow_day'.$i.'.eve', $day->temp->eve);
-         sg('ow_day'.$i.'.temp_night', $day->temp->night);
-         sg('ow_day'.$i.'.temp_min', $day->temp->min);
-         sg('ow_day'.$i.'.temp_max', $day->temp->max);
+         sg('ow_day'.$i.'.temperature', round (app_openweather::GetCurrTemp($day->temp),1));
+         sg('ow_day'.$i.'.temp_morn', round ($day->temp->morn,1));
+         sg('ow_day'.$i.'.temp_day', round ($day->temp->day,1));
+         sg('ow_day'.$i.'.eve', round ($day->temp->eve,1));
+         sg('ow_day'.$i.'.temp_night', round ($day->temp->night,1));
+         sg('ow_day'.$i.'.temp_min', round ($day->temp->min,1));
+         sg('ow_day'.$i.'.temp_max', round ($day->temp->max,1));
          
          sg('ow_day'.$i.'.weather_type', $day->weather[0]->description);
          sg('ow_day'.$i.'.wind_direction', $day->deg);
