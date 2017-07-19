@@ -502,7 +502,7 @@ class app_openweather extends module
             $obj_rec = array();
             $obj_rec['CLASS_ID'] = $class['ID'];
             $obj_rec['TITLE'] = "ow_day" . $i;
-            $obj_rec['DESCRIPTION'] = "Forecast on " . $i+1 . " day(s)";
+            $obj_rec['DESCRIPTION'] = "Forecast on ".($i+1)." day(s)";
             $obj_rec['ID'] = SQLInsert('objects', $obj_rec);
          }
       }
