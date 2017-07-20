@@ -280,7 +280,7 @@ class app_openweather extends module
             
             $dayTemp = gg('ow_day'.$i.'.temp_day');
 			if($dayTemp > 0) $dayTemp = "+" . $dayTemp;
-            $eveTemp = gg('ow_day'.$i.'.temp_eve');
+            $eveTemp = gg('ow_day'.$i.'.eve');
 			if($eveTemp > 0) $eveTemp = "+" . $eveTemp;
 			$nTemp=gg('ow_day'.$i.'.temp_night');
 			if($nTemp > 0) $nTemp = "+" . $nTemp;
