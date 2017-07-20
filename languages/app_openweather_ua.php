@@ -62,8 +62,8 @@ $dictionary = array(
 'OW_HELP_DISPLAY_INFO_CUR_WEATHER' => 'вивід інформації про теперішню погоду',
 'OW_HELP_DISPLAY_INFO_CUR_WEATHER_FORECAST' => 'вивід інформації про теперішню погоду та прогнозу на сьогодні',
 'OW_HELP_DISPLAY_INFO_FORECAST_0DAY' => 'прогноз погоди на сьогодні ',
-'OW_HELP_DISPLAY_INFO_FORECAST_1DAY' => 'прогноз погоды на сьогодні та завтра',
-'OW_HELP_DISPLAY_INFO_FORECAST_2DAY' => 'прогноз погоды на сьогодні, завтра та післязавтра',
+'OW_HELP_DISPLAY_INFO_FORECAST_1DAY' => 'прогноз погоди на сьогодні та завтра',
+'OW_HELP_DISPLAY_INFO_FORECAST_2DAY' => 'прогноз погоди на сьогодні, завтра та післязавтра',
 
 'OW_SUNINFO_SUNRISE' => 'Схід',
 'OW_SUNINFO_SUNSET' => 'Захід',
