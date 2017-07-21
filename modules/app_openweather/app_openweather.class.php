@@ -280,7 +280,7 @@ class app_openweather extends module
             
             $dayTemp = gg('ow_day'.$i.'.temp_day');
 			if($dayTemp > 0) $dayTemp = "+" . $dayTemp;
-            $eveTemp = gg('ow_day'.$i.'.eve');
+            $eveTemp = gg('ow_day'.$i.'.temp_eve');
 			if($eveTemp > 0) $eveTemp = "+" . $eveTemp;
 			$nTemp=gg('ow_day'.$i.'.temp_night');
 			if($nTemp > 0) $nTemp = "+" . $nTemp;
@@ -382,7 +382,7 @@ class app_openweather extends module
          sg('ow_day'.$i.'.temperature', round (app_openweather::GetCurrTemp($day->temp),1));
          sg('ow_day'.$i.'.temp_morn', round ($day->temp->morn,1));
          sg('ow_day'.$i.'.temp_day', round ($day->temp->day,1));
-         sg('ow_day'.$i.'.eve', round ($day->temp->eve,1));
+         sg('ow_day'.$i.'.temp_eve', round ($day->temp->eve,1));
          sg('ow_day'.$i.'.temp_night', round ($day->temp->night,1));
          sg('ow_day'.$i.'.temp_min', round ($day->temp->min,1));
          sg('ow_day'.$i.'.temp_max', round ($day->temp->max,1));
@@ -538,7 +538,7 @@ public function get_cityId(&$out)
 				 $arr["CITY_NAME"] = $city[1];
 				 $arr["CITY_LAT"] = $city[2];
 				 $arr["CITY_LNG"] = $city[3];
-				 $out["ow_city"] .= '<option value = "' .  $arr["CITY_ID"] . '">' . $arr["CITY_NAME"] . '</option>';
+				 $out["ow_city"] .= '<option value = "' .  $arr["CITY_ID"] . '">' . $arr["CITY_NAME"] .' ('.$arr["CITY_LAT"].'|'.$arr["CITY_LNG"].')</option>';
 			 }
 		  }
 		$out["ow_city"] .= '<option value="0" [#if city_id="none"#] selected[#endif#]>--'. constant('LANG_OW_CHOOSE_CITY') . '--</option>';
