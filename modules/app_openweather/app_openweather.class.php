@@ -356,7 +356,9 @@ class app_openweather extends module
       sg('ow_fact.image', $curWeather->weather[0]->icon);
       sg('ow_fact.clouds', $curWeather->clouds->all);
       sg('ow_fact.rain', isset($fact->rain) ? $fact->rain : '');
+      sg('ow_fact.condCode', $curWeather->weather[0]->id);
       sg('ow_city.data_update', $date);
+
       
       $sunInfo = $this->GetSunInfoByCityID($cityID);
       if ($sunInfo)
@@ -397,6 +399,7 @@ class app_openweather extends module
          sg('ow_day'.$i.'.clouds', $day->clouds);
          sg('ow_day'.$i.'.rain', isset($day->rain) ? $day->rain : 0);
          sg('ow_day'.$i.'.snow', isset($day->snow) ? $day->snow : 0);
+         sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
          
          $curTimeStamp = strtotime('+' . $i . ' day', time());
          $sunInfo = $this->GetSunInfoByCityID($cityID, $curTimeStamp);
