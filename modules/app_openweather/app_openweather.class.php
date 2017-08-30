@@ -530,7 +530,7 @@ public function get_cityId(&$out)
    {
       global $country;
       if (!isset($country)) $country = '';
-	  $data = getUrl('localhost/cached/openweather/city_list.txt');
+	  $data = file_get_contents(ROOT.'cached/openweather/city_list.txt');
 	  $out["country"]=$country;
       if (count($data) <= 0) return;
       $dataArray = explode("\n", $data);
@@ -556,7 +556,7 @@ public function save_cityId()
      
       if(isset($ow_city_id) && $ow_city_id != 0)
       {
-		$data = getUrl('localhost/cached/openweather/city_list.txt');
+		$data = file_get_contents(ROOT.'cached/openweather/city_list.txt');
 		if (count($data) <= 0) return;
 		$dataArray = explode("\n", $data);	
 		  foreach($dataArray as $row) 
