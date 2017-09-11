@@ -51,7 +51,7 @@
                         <li><#LANG_OW_WEATHER_WIND#>: [#windDirection#][#windSpeed#]м/с </li>
                         <li><#LANG_OW_WEATHER_OVERCAST#>: [#clouds#]%</li>
                         <li><#LANG_OW_PRESSURE#>: [#pressure#]<#LANG_OW_PRESSURE_HPA#> / [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></li>
-                        <li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>
+                        [#if humidity!=0#]<li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>[#endif humidity#]
                         [#if rain!="0"#]<li><#LANG_OW_WEATHER_RAIN#>: [#rain#]mm</li>[#endif rain#]
                         [#if snow!="0"#]<li><#LANG_OW_WEATHER_SNOW#>: [#snow#]mm</li>[#endif snow#]
                         <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#] / [#sunset#]</li>

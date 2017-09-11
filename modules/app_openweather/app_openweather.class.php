@@ -393,7 +393,7 @@ class app_openweather extends module
 			 sg('ow_day'.$i.'.weather_type', $day->weather[0]->description);
 			 sg('ow_day'.$i.'.wind_direction', $day->deg);
 			 sg('ow_day'.$i.'.wind_speed', $day->speed);
-			 sg('ow_day'.$i.'.humidity', $day->humidity);
+			 if($day->humidity) sg('ow_day'.$i.'.humidity', $day->humidity);
 			 sg('ow_day'.$i.'.pressure', $day->pressure);
 			 sg('ow_day'.$i.'.pressure_mmhg', app_openweather::ConvertPressure($day->pressure, "hpa", "mmhg", 2));
 			 sg('ow_day'.$i.'.image', $day->weather[0]->icon);
