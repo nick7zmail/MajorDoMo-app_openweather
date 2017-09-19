@@ -159,7 +159,7 @@ class app_openweather extends module
 				@mkdir(ROOT . 'cached', 0777);
 				@mkdir($filePath, 0777);
 			 }
-			 SaveFile($filePath . DIRECTORY_SEPARATOR . 'city_list.txt', file_get_contents('http://openweathermap.org/help/city_list.txt'));
+			 SaveFile($filePath . DIRECTORY_SEPARATOR . 'city_list.txt', @file_get_contents('http://openweathermap.org/help/city_list.txt'));
 		}
          $this->get_cityId($out);
       }
@@ -332,7 +332,7 @@ class app_openweather extends module
          
          if (!file_exists($filePath . DIRECTORY_SEPARATOR . $fileName))
          {
-            $contents = file_get_contents($urlIcon);
+            $contents = @file_get_contents($urlIcon);
             if ($contents)
             {
                SaveFile($filePath . DIRECTORY_SEPARATOR . $fileName, $contents);
@@ -414,7 +414,7 @@ public function get_cityId(&$out)
    {
       global $country;
       if (!isset($country)) $country = '';
-	  $data = file_get_contents(ROOT.'cached/openweather/city_list.txt');
+	  $data = @file_get_contents(ROOT.'cached/openweather/city_list.txt');
 	  $out["country"]=$country;
       if (count($data) <= 0) return;
       $dataArray = explode("\n", $data);
@@ -440,7 +440,7 @@ public function save_cityId()
      
       if(isset($ow_city_id) && $ow_city_id != 0)
       {
-		$data = file_get_contents(ROOT.'cached/openweather/city_list.txt');
+		$data = @file_get_contents(ROOT.'cached/openweather/city_list.txt');
 		if (count($data) <= 0) return;
 		$dataArray = explode("\n", $data);	
 		  foreach($dataArray as $row) 
