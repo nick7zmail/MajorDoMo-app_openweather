@@ -1,0 +1,73 @@
+
+<!-- first start -->
+<h1><#LANG_CLOUD_FUNC#></h1>
+[#if OK#]
+<div class="alert alert-success">[#OK#]</div>
+[#endif OK#]
+[#if WARN#]
+<div class="alert alert-warning">[#WARN#]</div>
+[#endif WARN#]
+[#if NEED_REG!="true"#]
+<form class="form-horizontal" role="form">
+	<div class="form-group">
+	  <label class="col-md-3">external id</label>
+	  <input name="external_id" type="text" class="form-control" placeholder="external_id">
+	</div>
+	<div class="form-group">
+	  <label class="col-md-3">name</label>
+	  <input name="name" type="text" class="form-control" placeholder="name">
+	</div>
+	<div class="form-group">
+	  <label class="col-md-3">latitude</label>
+	  <input name="latitude" type="text" class="form-control" placeholder="latitude">
+	</div>
+	<div class="form-group">
+	  <label class="col-md-3">longitude</label>
+	  <input name="longitude" type="text" class="form-control" placeholder="longitude">
+	</div>
+	<div class="form-group">
+	  <label class="col-md-3">altitude</label>
+	  <input name="altitude" type="text" class="form-control" placeholder="altitude">
+	</div>
+	<div class="input-group">
+	  <button name="subm" type="submit" class="btn btn-primary"><#LANG_LOGIN#></button>&nbsp;
+	  <a href="?data_source=<#DATA_SOURCE#>" class="btn btn-default "><#LANG_CANCEL#></a>
+	</div>
+	<input type="hidden" name="mode" value="login">
+	<input type="hidden" name="view_mode" value="<#VIEW_MODE#>">
+</form>
+[#else#]
+<div class="btn-group">
+ <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-user"></span></button><button type="button" class="btn btn-default">[#LOGIN#]</button><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=unlogin" class="btn btn-default "><i class="glyphicon glyphicon-log-out"></i> <#LANG_LOGOFF#></a>
+</div><br><br>
+<a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=get_last" class="btn btn-primary "><i class="glyphicon glyphicon-cloud-download"></i> <#LANG_GET_LAST#></a>
+<a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=get_list" class="btn btn-primary "><i class="glyphicon glyphicon-list"></i> <#LANG_GET_LIST#></a>
+<a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=cloud_export" class="btn btn-primary "><i class="glyphicon glyphicon-open"></i> <#LANG_CLOUD_EXPORT#></a>
+[#if PROPERTIES#]
+<div class="form-group">
+<table class="table table-striped">
+ <tr>
+  <td><#LANG_PATH#></td>
+  <td><#LANG_SIZE#></td>
+  <td>&nbsp;</td>
+ </tr>
+ <tbody>
+[#begin PROPERTIES#]
+<tr>
+ <td>
+   [#PATH#]
+ </td>
+ <td>
+   [#SIZE#]
+ </td>
+ <td>
+   <a href="?view_mode=<#VIEW_MODE#>&mode=get_one&dwl_id=[#ID#]" class="btn btn-default" title="<#LANG_DOWNLOAD#>"><i class="glyphicon glyphicon-cloud-download"></i></a>
+ </td>
+</tr>
+[#end PROPERTIES#]
+</tbody>
+</table> 
+</div>
+[#endif PROPERTIES#]
+[#if TEXTAREA#]<textarea class="form-control" name="textarea" id="textarea" rows="10">[#TEXTAREA#]</textarea>[#endif TEXTAREA#]
+[#endif NEED_REG#]

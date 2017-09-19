@@ -1,13 +1,5 @@
 <?php
 
-/**
- * OpenWeather Application
- *
- * module for MajorDoMo project
- * @author Lutsenko Denis <palacex@gmail.com>
- * @copyright Lutsenko D.V.
- * @version 0.1 December 2014
- */
 class app_openweather extends module
 {
    /**
@@ -25,14 +17,6 @@ class app_openweather extends module
       $this->checkInstalled();
    }
    
-   /**
-    * saveParams
-    *
-    * Saving module parameters
-    * @access public
-    * @param mixed $data Data (default 0)
-    * @return void
-    */
    public function saveParams($data = 0)
    {
       $p = array();
@@ -52,12 +36,6 @@ class app_openweather extends module
       return parent::saveParams($p);
    }
    
-   /**
-    * getParams
-    * Getting module parameters from query string
-    * @access public
-    * @return void
-    */
    public function getParams()
    {
       global $id;
@@ -90,14 +68,6 @@ class app_openweather extends module
          $this->fact = $fact;
    }
    
-   /**
-    * Run
-    *
-    * Description
-    * @access public
-    *
-    * @return void
-    */
    public function run()
    {
       global $session;
@@ -255,12 +225,12 @@ class app_openweather extends module
          $out["FACT"]["sunset"]        = date("H:i:s", gg('ow_fact.sunset'));
          $out["FACT"]["day_length"]    = gmdate("H:i", gg('ow_fact.day_length'));
       }
-
-      $forecast = $forecast-1;
       
       if ($forecast > 0)
       {
          $forecastOnLabel = constant('LANG_OW_FORECAST_ON');
+		 $tmpfc=$forecast;
+		 if($forecast<=2) $forecast=$forecast*8-1; else $forecast=$forecast-1;
          for ($i = 0; $i <= $forecast; $i++)
          {
             $curDate = gg('ow_day' . $i . '.date');
@@ -278,18 +248,18 @@ class app_openweather extends module
 
             if($temp > 0) $temp = "+" . $temp;
             
-            $dayTemp = gg('ow_day'.$i.'.temp_day');
+            if($tmpfc<=2) $dayTemp=gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
 			if($dayTemp > 0) $dayTemp = "+" . $dayTemp;
             $eveTemp = gg('ow_day'.$i.'.temp_eve');
 			if($eveTemp > 0) $eveTemp = "+" . $eveTemp;
-			$nTemp=gg('ow_day'.$i.'.temp_night');
+			if($tmpfc<=2) $nTemp=gg('ow_day'.$i.'.temp_min'); else $nTemp=gg('ow_day'.$i.'.temp_night');
 			if($nTemp > 0) $nTemp = "+" . $nTemp;
 			
             $out["FORECAST"][$i]["temperature"] = $temp;
             $out["FORECAST"][$i]["temp_morn"]   = gg('ow_day'.$i.'.temp_morn');
-            $out["FORECAST"][$i]["temp_day"]    = $dayTemp;
+			$out["FORECAST"][$i]["temp_day"] = $dayTemp;
             $out["FORECAST"][$i]["temp_eve"]    = $eveTemp;
-            $out["FORECAST"][$i]["temp_night"]  = $nTemp;
+			$out["FORECAST"][$i]["temp_night"] = $nTemp;
             $out["FORECAST"][$i]["temp_min"]    = gg('ow_day'.$i.'.temp_min');
             $out["FORECAST"][$i]["temp_max"]    = gg('ow_day'.$i.'.temp_max');
             
@@ -333,95 +303,8 @@ class app_openweather extends module
     */
    public function get_weather($cityID)
    {
-      $weather    = app_openweather::GetJsonWeatherDataByCityID($cityID);
-      $curWeather = self::GetCurrentWeatherDataByCityID($cityID);
-
-      if ($weather->cod == "404" || $curWeather->cod == "404")
-      {
-         DebMes($weather->message);
-         return;
-      }
-      if($curWeather!=false && !empty($curWeather)) {
-		  $fact = $curWeather->main;
-		  
-		  $date = date("d.m.Y G:i:s T Y", $curWeather->dt);
-		 
-		  sg('ow_fact.temperature', round ($fact->temp,1));
-		  sg('ow_fact.weather_type', $curWeather->weather[0]->description);
-		  sg('ow_fact.wind_direction', $curWeather->wind->deg);
-		  sg('ow_fact.wind_speed',$curWeather->wind->speed);
-		  sg('ow_fact.humidity', $fact->humidity);
-		  sg('ow_fact.pressure', $fact->pressure);
-		  sg('ow_fact.pressure_mmhg', app_openweather::ConvertPressure($fact->pressure, "hpa", "mmhg", 2));
-		  sg('ow_fact.image', $curWeather->weather[0]->icon);
-		  sg('ow_fact.clouds', $curWeather->clouds->all);
-		  sg('ow_fact.rain', isset($fact->rain) ? $fact->rain : '');
-		  sg('ow_fact.condCode', $curWeather->weather[0]->id);
-		  sg('ow_city.data_update', $date);
-
-		  
-		  $sunInfo = $this->GetSunInfoByCityID($cityID);
-		  if ($sunInfo)
-		  {
-			 $sunRise = $sunInfo["sunrise"];
-			 $sunSet = $sunInfo["sunset"];
-			 $dayLength = $sunSet - $sunRise;
-
-			 sg('ow_fact.sunrise', $sunRise);
-			 sg('ow_fact.sunset', $sunSet);
-			 sg('ow_fact.day_length', $dayLength);
-			 sg('ow_fact.transit', $sunInfo["transit"]);
-			 sg('ow_fact.civil_twilight_begin', $sunInfo["civil_twilight_begin"]);
-			 sg('ow_fact.civil_twilight_end', $sunInfo["civil_twilight_end"]);
-		  }
-      }
-	  if($weather!=false && !empty($weather)) {
-		  $i = 0;
-		  foreach($weather->list as $day)
-		  {
-			 $date = date("d.m.Y", $day->dt);
-			 sg('ow_day'.$i.'.date', $date);
-			 
-			 sg('ow_day'.$i.'.temperature', round (app_openweather::GetCurrTemp($day->temp),1));
-			 sg('ow_day'.$i.'.temp_morn', round ($day->temp->morn,1));
-			 sg('ow_day'.$i.'.temp_day', round ($day->temp->day,1));
-			 sg('ow_day'.$i.'.temp_eve', round ($day->temp->eve,1));
-			 sg('ow_day'.$i.'.temp_night', round ($day->temp->night,1));
-			 sg('ow_day'.$i.'.temp_min', round ($day->temp->min,1));
-			 sg('ow_day'.$i.'.temp_max', round ($day->temp->max,1));
-			 
-			 sg('ow_day'.$i.'.weather_type', $day->weather[0]->description);
-			 sg('ow_day'.$i.'.wind_direction', $day->deg);
-			 sg('ow_day'.$i.'.wind_speed', $day->speed);
-			 if($day->humidity) sg('ow_day'.$i.'.humidity', $day->humidity);
-			 sg('ow_day'.$i.'.pressure', $day->pressure);
-			 sg('ow_day'.$i.'.pressure_mmhg', app_openweather::ConvertPressure($day->pressure, "hpa", "mmhg", 2));
-			 sg('ow_day'.$i.'.image', $day->weather[0]->icon);
-			 sg('ow_day'.$i.'.clouds', $day->clouds);
-			 sg('ow_day'.$i.'.rain', isset($day->rain) ? $day->rain : 0);
-			 sg('ow_day'.$i.'.snow', isset($day->snow) ? $day->snow : 0);
-			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
-			 
-			 $curTimeStamp = strtotime('+' . $i . ' day', time());
-			 $sunInfo = $this->GetSunInfoByCityID($cityID, $curTimeStamp);
-			 if ($sunInfo)
-			 {
-				$sunRise = $sunInfo["sunrise"];
-				$sunSet = $sunInfo["sunset"];
-				$dayLength = $sunSet - $sunRise;
-				
-				sg('ow_day'.$i.'.sunrise', $sunRise);
-				sg('ow_day'.$i.'.sunset', $sunSet);
-				sg('ow_day'.$i.'.day_length', $dayLength);
-				sg('ow_day'.$i.'.transit', $sunInfo["transit"]);
-				sg('ow_day'.$i.'.civil_twilight_begin', $sunInfo["civil_twilight_begin"]);
-				sg('ow_day'.$i.'.civil_twilight_end', $sunInfo["civil_twilight_end"]);
-			 }
-			 
-			 $i++;
-		  }
-	  }
-      runScript(gg('ow_setting.updScript'));
+	require(DIR_MODULES.$this->name.'/get_weather.inc.php');
+    runScript(gg('ow_setting.updScript'));
    }
 
    /**
@@ -496,6 +379,7 @@ class app_openweather extends module
       sg('ow_setting.countTime', 1);
       
       $class = SQLSelectOne("SELECT ID FROM classes WHERE TITLE = 'openweather'");
+	  if ($ow_forecast_interval<=2) $ow_forecast_interval=$ow_forecast_interval*8;
       if ($class['ID']) 
       {
          SQLExec("DELETE FROM pvalues WHERE object_id IN (SELECT ID FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%')");
@@ -572,48 +456,7 @@ public function save_cityId()
 		  }
       }
    }  
-   /**
-    * Get Weather data from openweathermap.org by city id
-    * @param mixed $cityID City ID
-    * @param mixed $unit   Unit(metric/imperial)
-    * @return mixed
-    */
-   protected static function GetJsonWeatherDataByCityID($cityID, $unit = "metric")
-   {
-      if (!isset($cityID)) return null;
 
-      $apiKey = gg('ow_setting.api_key');
-      
-      $unit = app_openweather::GetUnits($unit);
-      $query  = "http://api.openweathermap.org/data/2.5/forecast/daily?id=" . $cityID . "&mode=json&units=" . $unit . "&cnt=16&lang=ru" . "&appid=" . $apiKey;
-      
-      $data =  getURL($query);
-      
-      $data   = json_decode($data);
-      return $data;
-   }
-
-   /**
-    * Get current weather data
-    * @param mixed $cityID City ID
-    * @param mixed $unit   Weather Unit (metric/imperial)
-    * @return mixed
-    */
-   private static function GetCurrentWeatherDataByCityID($cityID, $unit = "metric")
-   {
-      if (!isset($cityID))
-         return null;
-      
-      $apiKey = gg('ow_setting.api_key');
-      
-      $unit = app_openweather::GetUnits($unit);
-      $query  = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru" . "&appid=" . $apiKey;
-      
-      $data =  getURL($query);
-      
-      $data   = json_decode($data);
-      return $data;
-   }
    
    /**
     * Convert Pressure from one system to another. 
@@ -645,22 +488,6 @@ public function save_cityId()
       return $pressure;
    }
    
-   /**
-    * Check units for weather. If unit unknown or incorrect then units = metric
-    * @param $vUnits
-    * @return
-    */
-   private static function GetUnits($unit)
-   {
-      $units = "metric";
-      
-      if (!isset($unit)) return $units;
-      
-      if ($unit === "imperial")
-         return $unit;
-      
-      return $units;
-   }
    
    private static function GetCurrTemp($temp)
    {
@@ -702,40 +529,20 @@ public function save_cityId()
     * @param mixed $timeStamp TimeStamp. 
     * @return array|bool
     */
-   private function GetSunInfoByGeoCoord($cityLat, $cityLong, $timeStamp = -1)
+   private function GetSunInfo($timeStamp = -1)
    {
-      if($timeStamp == '' or $timeStamp == -1)
-         $timeStamp = time(); 
-      
-      if(empty($cityLat) || empty($cityLong))
-      {
-         DebMes("CityCoords not found");
-         return FALSE;
-      }
-      $info = date_sun_info($timeStamp, $cityLat, $cityLong);
-	  
-      return $info;
+		$cityLat=gg('ow_city.lat');
+		$cityLong=gg('ow_city.lon');
+		if($timeStamp == '' or $timeStamp == -1) $timeStamp = time();
+		if (!isset($cityLat) || !isset($cityLong)) return FALSE;
+		if(empty($cityLat) || empty($cityLong)) {
+			DebMes("CityCoords not found");
+			return FALSE;
+		}
+		$info = date_sun_info($timeStamp, $cityLat, $cityLong);
+		return $info;
    }
    
-   /**
-    * Get sun info by cityID on date
-    * @param mixed $cityID    CityID
-    * @param mixed $timeStamp TimeStamp
-    * @return array|bool
-    */
-   public function GetSunInfoByCityID($cityID, $timeStamp = -1)
-   {
-	  $cityLat=gg('ow_city.lat');
-	  $cityLong=gg('ow_city.lon');
-      if($timeStamp == '' or $timeStamp == -1)
-         $timeStamp = time();
-      
-	  if (!isset($cityLat) || !isset($cityLong))
-         return FALSE;
-      
-      $info = $this->GetSunInfoByGeoCoord($cityLat, $cityLong, $timeStamp);
-      return $info;
-   }
 
    /**
     * Get possibility freeze by evening and day temperature
@@ -814,7 +621,6 @@ public function save_cityId()
          }
       }
       parent::install();
-      // --------------------------------------------------------------------
    }
    
    public function uninstall()
@@ -824,8 +630,6 @@ public function save_cityId()
       SQLExec("delete from properties where object_id in (select id from objects where class_id = (select id from classes where title = 'openweather'))");
       SQLExec("delete from objects where class_id = (select id from classes where title = 'openweather')");
       SQLExec("delete from classes where title = 'openweather'");
-      SQLExec('drop table if exists OPENWEATHER_CITY');
-      SQLExec('drop table if exists COUNTRY');
       parent::uninstall();
    }
 }
