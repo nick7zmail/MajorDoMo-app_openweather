@@ -212,7 +212,7 @@ class app_openweather extends module
          $out["FACT"]["temperature"]   = $temp;
          $out["FACT"]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_fact.image'));
          $windDirection                = gg('ow_fact.wind_direction');
-         $out["FACT"]["windDirection"] = app_openweather::getWindDirection($windDirection) . "(" . $windDirection . "&deg;)";
+         $out["FACT"]["windDirection"] = app_openweather::getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
          $out["FACT"]["windSpeed"]     = gg('ow_fact.wind_speed');
          $out["FACT"]["humidity"]      = gg('ow_fact.humidity');
          $out["FACT"]["clouds"]        = gg('ow_fact.clouds');
@@ -265,7 +265,7 @@ class app_openweather extends module
             
             $out["FORECAST"][$i]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_day' . $i . '.image'));
             $windDirection                        = gg('ow_day' . $i . '.wind_direction');
-            $out["FORECAST"][$i]["windDirection"] = app_openweather::getWindDirection($windDirection) . "(" . $windDirection . "&deg;)";
+            $out["FORECAST"][$i]["windDirection"] = app_openweather::getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
             $out["FORECAST"][$i]["windSpeed"]     = gg('ow_day'.$i.'.wind_speed');
             $out["FORECAST"][$i]["humidity"]      = gg('ow_day'.$i.'.humidity');
             $out["FORECAST"][$i]["weatherType"]   = gg('ow_day'.$i.'.weather_type');
@@ -536,7 +536,7 @@ public function save_cityId()
 		if($timeStamp == '' or $timeStamp == -1) $timeStamp = time();
 		if (!isset($cityLat) || !isset($cityLong)) return FALSE;
 		if(empty($cityLat) || empty($cityLong)) {
-			DebMes("CityCoords not found");
+			DebMes('OpenWeather: '.'CityCoords not found');
 			return FALSE;
 		}
 		$info = date_sun_info($timeStamp, $cityLat, $cityLong);

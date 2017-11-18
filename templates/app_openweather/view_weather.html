@@ -16,12 +16,12 @@
                   <td>[#date#]<img src="[#weatherIcon#]"></td>
                   <td>
                      <ul class="list-unstyled">
-                        <li><span class="label label-warning">[#temperature#]°C </span> &nbsp;&nbsp;<i>[#weatherType#]</i></li>
+                        <li><span class="label label-warning">[#temperature#]°C </span> &nbsp;<i>[#weatherType#]</i></li>
                         <li><#LANG_OW_WEATHER_WIND#>: [#windDirection#]&nbsp;[#windSpeed#] м/с </li>
                         <li><#LANG_OW_WEATHER_OVERCAST#>: [#clouds#]%</li>
-                        <li><#LANG_OW_PRESSURE#>: [#pressure#] <#LANG_OW_PRESSURE_HPA#> / [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></li>
+                        <li><#LANG_OW_PRESSURE#>: [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></li>
                         <li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>
-                        <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#] / [#sunset#]</li>
+                        <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#]/[#sunset#]</li>
                         <li><#LANG_OW_SUNINFO_DAY_LENGTH#>: [#day_length#]</li>
                      </ul>
                   </td>
@@ -47,14 +47,14 @@
                   <td><span>[#date#]</span><br /><img src="[#weatherIcon#]"></td>
                   <td>
                      <ul  class="list-unstyled">
-                        <li><span class="label label-warning">[#temp_day#]°C </span><span class="label label-default">[#temp_night#]°C </span><i> [#weatherType#]</i></li>
-                        <li><#LANG_OW_WEATHER_WIND#>: [#windDirection#][#windSpeed#] м/с </li>
+                        <li><span class="label label-warning">[#temp_day#]°C </span><span class="label label-default">[#temp_night#]°C </span>&nbsp;<i>[#weatherType#]</i></li>
+                        <li><#LANG_OW_WEATHER_WIND#>: [#windDirection#]&nbsp;[#windSpeed#] м/с</li>
                         <li><#LANG_OW_WEATHER_OVERCAST#>: [#clouds#]%</li>
-                        <li><#LANG_OW_PRESSURE#>: [#pressure#] <#LANG_OW_PRESSURE_HPA#> / [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></li>
+                        <li><#LANG_OW_PRESSURE#>: [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></li>
                         [#if humidity!=0#]<li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>[#endif humidity#]
                         [#if rain!="0"#]<li><#LANG_OW_WEATHER_RAIN#>: [#rain#]mm</li>[#endif rain#]
                         [#if snow!="0"#]<li><#LANG_OW_WEATHER_SNOW#>: [#snow#]mm</li>[#endif snow#]
-                        <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#] / [#sunset#]</li>
+                        <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#]/[#sunset#]</li>
                         <li><#LANG_OW_SUNINFO_DAY_LENGTH#>: [#day_length#]</li>
                      </ul>
                   </td>

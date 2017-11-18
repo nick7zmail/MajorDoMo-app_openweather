@@ -8,7 +8,7 @@
 		$curWeather = json_decode($data);
 		if ($curWeather->cod == "404")
 		  {
-			 DebMes($weather->message);
+			 DebMes('OpenWeather: '.$weather->message);
 			 return;
 		  }
 		 
@@ -56,7 +56,7 @@
 		
       if ($weather->cod == "404")
       {
-         DebMes($weather->message);
+         DebMes('OpenWeather: '.$weather->message);
          return;
       }
 	  if($weather!=false && !empty($weather)) {
@@ -111,10 +111,10 @@
 			$weather = json_decode($data);
 			if ($weather->cod == "404")
 			  {
-				 DebMes($weather->message);
+				 DebMes('OpenWeather: '.$weather->message);
 				 return;
 			  }
-			  debmes($query);
+			  debmes('OpenWeather: '.$query);
 	  if($weather!=false && !empty($weather)) {
 		  $i = 0;
 		  foreach($weather->list as $day)
