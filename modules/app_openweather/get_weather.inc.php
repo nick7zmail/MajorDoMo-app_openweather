@@ -1,6 +1,7 @@
 <?php
 		if (!isset($cityID)) return null;
 		$apiKey = gg('ow_setting.api_key');
+		$api_method =gg('ow_setting.api_method'); 
 		$unit = 'metric';
 		
 		$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru" . "&appid=" . $apiKey;
@@ -49,7 +50,7 @@
 		
 		
 		
-	if(gg('ow_setting.forecast_interval')>2) {
+	if($api_method=='16d') {
 		$query= "http://api.openweathermap.org/data/2.5/forecast/daily?id=" . $cityID . "&mode=json&units=" . $unit . "&cnt=16&lang=ru" . "&appid=" . $apiKey;
 		$data = getURL($query);
 		$weather = json_decode($data);
@@ -114,7 +115,6 @@
 				 DebMes('OpenWeather: '.$weather->message);
 				 return;
 			  }
-			  debmes('OpenWeather: '.$query);
 	  if($weather!=false && !empty($weather)) {
 		  $i = 0;
 		  foreach($weather->list as $day)

@@ -70,8 +70,9 @@ $dictionary = array(
 'OW_SUNINFO_DAY_LENGTH' => 'Довжина дня',
 'OW_SUNINFO_DAY_SUNRISE_SUNSET' => 'Схід/захід сонця',
 'OW_API_KEY' => 'Ключ API',
-'OW_CITYNAME' => 'Назва міста'
-
+'OW_CITYNAME' => 'Назва міста',
+'OW_16D' => '16 денний/на кожен день',
+'OW_5D3H' => '5 денний/3 годинний прогноз'
 /* end module names */
 );
 

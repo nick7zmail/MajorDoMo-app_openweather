@@ -70,7 +70,9 @@ $dictionary = array(
 'OW_SUNINFO_DAY_LENGTH' => 'Day Length',
 'OW_SUNINFO_DAY_SUNRISE_SUNSET' => 'Sunrise/Sunset',
 'OW_API_KEY' => 'API Key',
-'OW_CITYNAME' => 'City name'
+'OW_CITYNAME' => 'City name',
+'OW_16D' => '16 days/daily forecast API',
+'OW_5D3H' => '5 days/3 hour forecast API'
 
 /* end module names */
 );

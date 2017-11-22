@@ -228,9 +228,10 @@ class app_openweather extends module
       
       if ($forecast > 0)
       {
+		 $api_method =gg('ow_setting.api_method'); 
          $forecastOnLabel = constant('LANG_OW_FORECAST_ON');
 		 $tmpfc=$forecast;
-		 if($forecast<=2) $forecast=$forecast*8-1; else $forecast=$forecast-1;
+		 if($api_method=='5d3h') $forecast=$forecast*8-1; else $forecast=$forecast-1;
          for ($i = 0; $i <= $forecast; $i++)
          {
             $curDate = gg('ow_day' . $i . '.date');
@@ -368,10 +369,12 @@ class app_openweather extends module
       global $ow_city_name;
       global $ow_city_lat;
       global $ow_city_lon;
-	
+	  global $api_method;	
+	  
       if(!isset($ow_imagecache)) $ow_imagecache = 'off';
       if(isset($ow_script)) sg('ow_setting.updScript', $ow_script);
       if(isset($ow_api_key)) sg('ow_setting.api_key', $ow_api_key);
+	  if(isset($api_method)) sg('ow_setting.api_method', $api_method);
 
       sg('ow_setting.ow_imagecache', $ow_imagecache);
       sg('ow_setting.updatetime',$ow_update_interval);
@@ -379,7 +382,7 @@ class app_openweather extends module
       sg('ow_setting.countTime', 1);
       
       $class = SQLSelectOne("SELECT ID FROM classes WHERE TITLE = 'openweather'");
-	  if ($ow_forecast_interval<=2) $ow_forecast_interval=$ow_forecast_interval*8;
+	  if ($api_method=='5d3h') $ow_forecast_interval=$ow_forecast_interval*8;
       if ($class['ID']) 
       {
          SQLExec("DELETE FROM pvalues WHERE object_id IN (SELECT ID FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%')");
@@ -391,7 +394,7 @@ class app_openweather extends module
             $obj_rec = array();
             $obj_rec['CLASS_ID'] = $class['ID'];
             $obj_rec['TITLE'] = "ow_day" . $i;
-            $obj_rec['DESCRIPTION'] = "Forecast on ".($i+1)." day(s)";
+            $obj_rec['DESCRIPTION'] = "Forecast on ".($i+1)." period(s)";
             $obj_rec['ID'] = SQLInsert('objects', $obj_rec);
          }
       }
@@ -407,7 +410,8 @@ class app_openweather extends module
       $out["updatetime"] = gg('ow_setting.updatetime');
       $out["script"] = gg('ow_setting.updScript');
       $out["forecast_interval"] = gg('ow_setting.forecast_interval');
-      $out["ow_api_key"] = gg('ow_setting.api_key');	  
+      $out["ow_api_key"] = gg('ow_setting.api_key');
+	  $out["api_method"] = gg('ow_setting.api_method');		  
    }
 
 public function get_cityId(&$out)
