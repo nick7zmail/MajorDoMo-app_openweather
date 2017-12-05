@@ -127,6 +127,10 @@ class app_openweather extends module
       else if($ow_subm == 'getWeather')
       {
          $this->get_weather(gg('ow_city.id'));
+      }       
+	  else if($ow_subm == 'ws_reg')
+      {
+         $this->ws_reg();
       }
       
       if($this->view_mode == '')
@@ -163,6 +167,11 @@ class app_openweather extends module
 		}
          $this->get_cityId($out);
       }
+	  else if($this->view_mode == 'wstation')
+      {
+		 $this->ws_get_info($out);
+	  }
+	  $out["ow_ws_active"] = gg('ow_setting.ow_ws_active');	
    }
    
    /**
@@ -290,6 +299,7 @@ class app_openweather extends module
 				$count = gg('ow_setting.countTime'); 
 				if($count >= $updateTime){
 					$this->get_weather(gg('ow_city.id'));
+					if( gg('ow_setting.ow_ws_active')==1) $this->ws_send_data($out, true);
 					sg('ow_setting.countTime', 1);
 				} else {
 					$count++;
@@ -370,12 +380,15 @@ class app_openweather extends module
       global $ow_city_lat;
       global $ow_city_lon;
 	  global $api_method;	
+	  global $ow_ws_active;
 	  
       if(!isset($ow_imagecache)) $ow_imagecache = 'off';
       if(isset($ow_script)) sg('ow_setting.updScript', $ow_script);
       if(isset($ow_api_key)) sg('ow_setting.api_key', $ow_api_key);
 	  if(isset($api_method)) sg('ow_setting.api_method', $api_method);
-
+	  if(isset($ow_ws_active)) $ow_ws_active = 1; else $ow_ws_active=0; sg('ow_setting.ow_ws_active', $ow_ws_active);
+	  
+	  
       sg('ow_setting.ow_imagecache', $ow_imagecache);
       sg('ow_setting.updatetime',$ow_update_interval);
       sg('ow_setting.forecast_interval', $ow_forecast_interval);
@@ -400,7 +413,7 @@ class app_openweather extends module
       }
    }
 
-   public function get_setting(&$out)
+public function get_setting(&$out)
    {
       $out["ow_city_name"] = gg('ow_city.name');
 	  $out["ow_city_id"] = gg('ow_city.id');
@@ -411,7 +424,8 @@ class app_openweather extends module
       $out["script"] = gg('ow_setting.updScript');
       $out["forecast_interval"] = gg('ow_setting.forecast_interval');
       $out["ow_api_key"] = gg('ow_setting.api_key');
-	  $out["api_method"] = gg('ow_setting.api_method');		  
+	  $out["api_method"] = gg('ow_setting.api_method');	
+	  $out["ow_ws_active"] = gg('ow_setting.ow_ws_active');	
    }
 
 public function get_cityId(&$out)
@@ -588,7 +602,105 @@ public function save_cityId()
       
       return -1;
    }
-   
+private function ws_reg() 
+{
+	global $external_id;
+	global $name;
+	global $latitude;
+	global $longitude;
+	global $altitude;
+	
+	$apiKey = gg('ow_setting.api_key');
+	
+	$data['external_id']=$external_id;
+	$data['name']=$name;
+	$data['latitude']=(float)$latitude;
+	$data['longitude']=(float)$longitude;
+	$data['altitude']=(float)$altitude;
+	$json_data=json_encode($data, JSON_UNESCAPED_UNICODE);
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid='.$apiKey);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_POST, true);
+	//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
+	$response = curl_exec($ch);
+	curl_close($ch);
+	$data=json_decode($response, TRUE);
+	if ($data['code'] != '')
+      {
+         DebMes('OpenWeather: Error '.$data['code'].' '.$data['message']);
+         return;
+      }
+	debmes($response);
+	sg('ow_ws.id', $data['ID']);
+	sg('ow_ws.user_id', $data['user_id']);
+	sg('ow_ws.name', $data['name']);
+}
+private function ws_get_info(&$out) {
+	$out["ow_ws_id"] = gg('ow_ws.id');
+	$out["ow_ws_name"] = gg('ow_ws.name');
+	If ($out["ow_ws_id"]!='' || !isset($out["ow_ws_id"]) ) $out["NEED_REG"]=false; else $out["NEED_REG"]=true;
+	$this->ws_send_data($out, false);
+}
+private function ws_send_data(&$out, $send=false) {
+	if (gg('ow_ws.id')!='') 				$data['station_id']=gg('ow_ws.id');
+	if (gg('ow_ws.dt')!='') 				$data['dt']=gg('ow_ws.dt'); if($data['station_id']='') $data['station_id']=time();
+	if (gg('ow_ws.temperature')!='') 		$data['temperature']=gg('ow_ws.temperature');
+	if (gg('ow_ws.wind_speed')!='') 		$data['wind_speed']=gg('ow_ws.wind_speed');
+	if (gg('ow_ws.wind_gust')!='') 			$data['wind_gust']=gg('ow_ws.wind_gust');
+	if (gg('ow_ws.wind_deg')!='') 			$data['wind_deg']=gg('ow_ws.wind_deg');
+	if (gg('ow_ws.pressure')!='') 			$data['pressure']=gg('ow_ws.pressure');
+	if (gg('ow_ws.humidity')!='') 			$data['humidity']=gg('ow_ws.humidity');
+	if (gg('ow_ws.rain_1h')!='') 			$data['rain_1h']=gg('ow_ws.rain_1h');
+	if (gg('ow_ws.rain_6h')!='') 			$data['rain_6h']=gg('ow_ws.rain_6h');
+	if (gg('ow_ws.rain_24h')!='') 			$data['rain_24h']=gg('ow_ws.rain_24h');
+	if (gg('ow_ws.snow_1h')!='') 			$data['snow_1h']=gg('ow_ws.snow_1h');
+	if (gg('ow_ws.snow_6h')!='') 			$data['snow_6h']=gg('ow_ws.snow_6h');
+	if (gg('ow_ws.snow_24h')!='') 			$data['snow_24h']=gg('ow_ws.snow_24h');
+	if (gg('ow_ws.dew_point')!='') 			$data['dew_point']=gg('ow_ws.dew_point');
+	if (gg('ow_ws.humidex')!='') 			$data['humidex']=gg('ow_ws.humidex');
+	if (gg('ow_ws.heat_index')!='') 		$data['heat_index']=gg('ow_ws.heat_index');
+	if (gg('ow_ws.visibility_distance')!='') $data['visibility_distance']=gg('ow_ws.visibility_distance');
+	if (gg('ow_ws.visibility_prefix')!='') 	$data['visibility_prefix']=gg('ow_ws.visibility_prefix');
+	if (gg('ow_ws.clouds_distance')!='') 	$data['clouds']['distance']=gg('ow_ws.clouds_distance');
+	if (gg('ow_ws.clouds_condition')!='') 	$data['clouds']['condition']=gg('ow_ws.clouds_condition');
+	if (gg('ow_ws.clouds_cumulus')!='') 	$data['clouds']['cumulus']=gg('ow_ws.clouds_cumulus');
+	if (gg('ow_ws.weather_precipitation')!='') $data['weather']['precipitation']=gg('ow_ws.weather_precipitation');
+	if (gg('ow_ws.weather_descriptor')!='') $data['weather']['descriptor']=gg('ow_ws.weather_descriptor');
+	if (gg('ow_ws.weather_intensity')!='') 	$data['weather']['intensity']=gg('ow_ws.weather_intensity');
+	if (gg('ow_ws.weather_proximity')!='') 	$data['weather']['proximity']=gg('ow_ws.weather_proximity');
+	if (gg('ow_ws.weather_obsruration')!='') $data['weather']['obsruration']=gg('ow_ws.weather_obsruration');
+	if (gg('ow_ws.weather_other')!='') 		$data['weather']['other']=gg('ow_ws.weather_other');
+	$i=1;
+	$apiKey = gg('ow_setting.api_key');
+	$stationID = $data['station_id'];
+	if ($stationID!='') {
+		foreach ($data as $k=>$v) {
+			$out['data'][$i]['name']=$k;
+			$out['data'][$i]['val']=$v;
+			$i++;
+		}
+	}
+	if($send==true) {
+		$json_data=json_encode($data, JSON_UNESCAPED_UNICODE);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid='.$apiKey.'&type=h&limit=100&station_id='.$stationID);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POST, true);
+		//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
+		$response = curl_exec($ch);
+		curl_close($ch);
+		if ($data['code'] != '')
+		  {
+			 DebMes('OpenWeather: Error '.$data['code'].' '.$data['message']);
+			 return;
+		  }
+		}
+}   
    /**
     * Install
     * Module installation routine
@@ -598,8 +710,8 @@ public function save_cityId()
    {
 	  subscribeToEvent($this->name, 'HOURLY');
       $className = 'openweather';
-      $objectName = array('ow_city', 'ow_setting', 'ow_fact', 'ow_day0', 'ow_day1', 'ow_day2');
-      $objDescription = array('Местоположение', 'Настройки', 'Текущая температура', 'Прогноз погоды на день', 'Прогноз погоды на завтра', 'Прогноз погоды на послезавтра');
+      $objectName = array('ow_city', 'ow_setting', 'ow_ws', 'ow_fact', 'ow_day0', 'ow_day1', 'ow_day2');
+      $objDescription = array('Местоположение', 'Настройки', 'Погодная станция (экспорт)', 'Текущая температура', 'Прогноз погоды на день', 'Прогноз погоды на завтра', 'Прогноз погоды на послезавтра');
 
       $rec = SQLSelectOne("SELECT ID FROM classes WHERE TITLE LIKE '" . DBSafe($className) . "'");
       

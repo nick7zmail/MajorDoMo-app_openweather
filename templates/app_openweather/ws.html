@@ -7,7 +7,7 @@
 [#if WARN#]
 <div class="alert alert-warning">[#WARN#]</div>
 [#endif WARN#]
-[#if NEED_REG!="true"#]
+[#if NEED_REG==true#]
 <form class="form-horizontal" role="form">
 	<div class="form-group">
 	  <label class="col-md-3">external id</label>
@@ -30,44 +30,33 @@
 	  <input name="altitude" type="text" class="form-control" placeholder="altitude">
 	</div>
 	<div class="input-group">
-	  <button name="subm" type="submit" class="btn btn-primary"><#LANG_LOGIN#></button>&nbsp;
+	  <button type="submit" name="ow_subm" value="ws_reg" class="btn btn-primary">Зарегистрировать</button>&nbsp;
 	  <a href="?data_source=<#DATA_SOURCE#>" class="btn btn-default "><#LANG_CANCEL#></a>
 	</div>
-	<input type="hidden" name="mode" value="login">
+	<input type="hidden" name="mode" value="register">
 	<input type="hidden" name="view_mode" value="<#VIEW_MODE#>">
 </form>
 [#else#]
-<div class="btn-group">
- <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-user"></span></button><button type="button" class="btn btn-default">[#LOGIN#]</button><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=unlogin" class="btn btn-default "><i class="glyphicon glyphicon-log-out"></i> <#LANG_LOGOFF#></a>
-</div><br><br>
-<a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=get_last" class="btn btn-primary "><i class="glyphicon glyphicon-cloud-download"></i> <#LANG_GET_LAST#></a>
-<a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=get_list" class="btn btn-primary "><i class="glyphicon glyphicon-list"></i> <#LANG_GET_LIST#></a>
-<a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&mode=cloud_export" class="btn btn-primary "><i class="glyphicon glyphicon-open"></i> <#LANG_CLOUD_EXPORT#></a>
-[#if PROPERTIES#]
-<div class="form-group">
-<table class="table table-striped">
- <tr>
-  <td><#LANG_PATH#></td>
-  <td><#LANG_SIZE#></td>
-  <td>&nbsp;</td>
- </tr>
- <tbody>
-[#begin PROPERTIES#]
-<tr>
- <td>
-   [#PATH#]
- </td>
- <td>
-   [#SIZE#]
- </td>
- <td>
-   <a href="?view_mode=<#VIEW_MODE#>&mode=get_one&dwl_id=[#ID#]" class="btn btn-default" title="<#LANG_DOWNLOAD#>"><i class="glyphicon glyphicon-cloud-download"></i></a>
- </td>
-</tr>
-[#end PROPERTIES#]
-</tbody>
-</table> 
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">Погодная станция: [#ow_ws_name#]</h3>
+	</div>
+	<div class="panel-body">
+	Последние отправленные данные:
+	<table class="table">
+        <thead>
+          <tr>
+            <th>Параметр</th>
+            <th>Значение</th>
+          </tr>
+        </thead>	
+		[#begin data#]
+		<tr>
+			<td>[#name#]</td>
+			<td>[#val#]</td>
+		</tr>
+		[#end data#]
+	</table>
+	</div>
 </div>
-[#endif PROPERTIES#]
-[#if TEXTAREA#]<textarea class="form-control" name="textarea" id="textarea" rows="10">[#TEXTAREA#]</textarea>[#endif TEXTAREA#]
 [#endif NEED_REG#]

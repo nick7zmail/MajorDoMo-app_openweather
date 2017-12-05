@@ -65,27 +65,33 @@
    </div>
 
    <div class="form-group">
-      <label class="col-md-3"><#LANG_OW_EXECUTE_AFTER_UPDATE#></label>
+      <label class="col-md-3"><#LANG_HCB#>OnchangeScript<#LANG_HCE#> <#LANG_OW_EXECUTE_AFTER_UPDATE#></label>
       <div class="col-md-4">
          <input type="text" name="ow_script" class="form-control" placeholder="<#LANG_OW_SCRIPT_NAME#>" value="[#script#]">
       </div>
    </div>
 [#endif#]
    <div class="form-group">
-      <label class="col-md-3"><#LANG_OW_API_KEY#></label>
+      <label class="col-md-3"><#LANG_HCB#>ow_apikey<#LANG_HCE#> <#LANG_OW_API_KEY#></label>
       <div class="col-md-4">
          <input type="text" name="ow_api_key" class="form-control" placeholder="<#LANG_OW_API_KEY#>" value="[#ow_api_key#]">
       </div>
    </div>
 	<div class="form-group">
 	 <label class="col-md-3"[#if ERR_METHOD#] style="color:red;font-weight:bold"[#endif#]>
-	 Тарифный план:<#LANG_HCB#>ow_apimethod<#LANG_HCE#>
+	 <#LANG_HCB#>ow_apimethod<#LANG_HCE#> Метод API
 	 </label>
 	 <div class="col-md-4">
 			<input type="radio" name="api_method" value="16d"[#if api_method=="16d"#] checked[#endif#]> <#LANG_OW_16D#><br>
 			<input type="radio" name="api_method" value="5d3h"[#if api_method=="5d3h"#] checked[#endif#]> <#LANG_OW_5D3H#><br>
 	 </div>
-	</div>   
+	</div>
+	<div class="form-group">
+	   <label class="col-md-3"><#LANG_HCB#>ow_ws<#LANG_HCE#> Режим погодной станции</label>
+	   <div class="col-lg-2">
+		<input type="checkbox" class="form-control" name="ow_ws_active" [#if ow_ws_active==1 #] checked[#else#] [#endif#]/>
+	   </div>
+	</div>	
    <div class="form-group">
       <a href="?" class="btn btn-default"><#LANG_CANCEL#></a>
       <button type="submit" name="ow_subm" value="setting" class="btn btn-primary"><#LANG_SUBMIT#></button>
