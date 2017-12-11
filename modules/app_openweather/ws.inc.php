@@ -12,7 +12,8 @@ function ws_reg(&$out) {
 	$data['altitude']=$altitude;
 	$json_data=json_encode($data, JSON_UNESCAPED_UNICODE);
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid=');
+	$apiKey = gg('ow_setting.api_key');
+	curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid='.$apiKey);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_POST, true);
 	//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -65,9 +66,10 @@ function ws_send_data(&$out, $send=false) {
 		$out['data']['val'][$i]=$v;
 	}
 	if($send==true) {
+		$apiKey = gg('ow_setting.api_key');
 		$json_data=json_encode($data, JSON_UNESCAPED_UNICODE);
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid='.'&type=h&limit=100&station_id=');
+		curl_setopt($ch, CURLOPT_URL, 'http://api.openweathermap.org/data/3.0/stations?appid='.$apiKey.'&type=h&limit=100&station_id='.$data['station_id']);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_POST, true);
 		//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
