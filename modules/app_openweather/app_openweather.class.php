@@ -45,7 +45,7 @@ class app_openweather extends module
       global $tab;
       global $fact;
       global $forecast;
-      
+	  
       if (isset($id))
          $this->id=$id;
       
@@ -88,7 +88,6 @@ class app_openweather extends module
       $out['EDIT_MODE'] = $this->edit_mode;
       $out['MODE']      = $this->mode;
       $out['ACTION']    = $this->action;
-
       if ($this->single_rec)
          $out['SINGLE_REC'] = 1;
       
@@ -208,7 +207,7 @@ class app_openweather extends module
    {
       $fact     = $this->fact;
       $forecast = $this->forecast;
-      
+	  
       if (is_null($forecast))
          $forecast = gg('ow_setting.forecast_interval');
       
@@ -221,13 +220,13 @@ class app_openweather extends module
          $out["FACT"]["temperature"]   = $temp;
          $out["FACT"]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_fact.image'));
          $windDirection                = gg('ow_fact.wind_direction');
-         $out["FACT"]["windDirection"] = app_openweather::getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
+         $out["FACT"]["windDirection"] = getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
          $out["FACT"]["windSpeed"]     = gg('ow_fact.wind_speed');
          $out["FACT"]["humidity"]      = gg('ow_fact.humidity');
          $out["FACT"]["clouds"]        = gg('ow_fact.clouds');
          $out["FACT"]["weatherType"]   = gg('ow_fact.weather_type');
          $out["FACT"]["pressure"]      = gg('ow_fact.pressure');
-         $out["FACT"]["pressure_mmhg"] = app_openweather::ConvertPressure(gg('ow_fact.pressure'),"hpa", "mmhg");
+         $out["FACT"]["pressure_mmhg"] = ConvertPressure(gg('ow_fact.pressure'),"hpa", "mmhg");
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
          
          $out["FACT"]["sunrise"]       = date("H:i:s", gg('ow_fact.sunrise'));
@@ -239,7 +238,6 @@ class app_openweather extends module
       {
 		 $api_method =gg('ow_setting.api_method'); 
          $forecastOnLabel = constant('LANG_OW_FORECAST_ON');
-		 $tmpfc=$forecast;
 		 if($api_method=='5d3h') $forecast=$forecast*8-1; else $forecast=$forecast-1;
          for ($i = 0; $i <= $forecast; $i++)
          {
@@ -258,11 +256,11 @@ class app_openweather extends module
 
             if($temp > 0) $temp = "+" . $temp;
             
-            if($tmpfc<=2) $dayTemp=gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
+            if($api_method=='5d3h') $dayTemp=gg('ow_day'.$i.'.temp_max'); else $dayTemp = gg('ow_day'.$i.'.temp_day');
 			if($dayTemp > 0) $dayTemp = "+" . $dayTemp;
             $eveTemp = gg('ow_day'.$i.'.temp_eve');
 			if($eveTemp > 0) $eveTemp = "+" . $eveTemp;
-			if($tmpfc<=2) $nTemp=gg('ow_day'.$i.'.temp_min'); else $nTemp=gg('ow_day'.$i.'.temp_night');
+			if($api_method=='5d3h') $nTemp=gg('ow_day'.$i.'.temp_min'); else $nTemp=gg('ow_day'.$i.'.temp_night');
 			if($nTemp > 0) $nTemp = "+" . $nTemp;
 			
             $out["FORECAST"][$i]["temperature"] = $temp;
@@ -275,7 +273,7 @@ class app_openweather extends module
             
             $out["FORECAST"][$i]["weatherIcon"]   = app_openweather::getWeatherIcon(gg('ow_day' . $i . '.image'));
             $windDirection                        = gg('ow_day' . $i . '.wind_direction');
-            $out["FORECAST"][$i]["windDirection"] = app_openweather::getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
+            $out["FORECAST"][$i]["windDirection"] = getWindDirection($windDirection) . " (" . $windDirection . "&deg;)";
             $out["FORECAST"][$i]["windSpeed"]     = gg('ow_day'.$i.'.wind_speed');
             $out["FORECAST"][$i]["humidity"]      = gg('ow_day'.$i.'.humidity');
             $out["FORECAST"][$i]["weatherType"]   = gg('ow_day'.$i.'.weather_type');
@@ -284,7 +282,7 @@ class app_openweather extends module
             $out["FORECAST"][$i]["clouds"]        = gg('ow_day'.$i.'.clouds');
             $out["FORECAST"][$i]["rain"]          = gg('ow_day'.$i.'.rain');
             $out["FORECAST"][$i]["snow"]          = gg('ow_day'.$i.'.snow');
-            $out["FORECAST"][$i]["freeze"]        = self::GetFreezePossibility($dayTemp, $eveTemp);
+            $out["FORECAST"][$i]["freeze"]        = GetFreezePossibility($dayTemp, $eveTemp);
 			
             $out["FORECAST"][$i]["sunrise"]    = date("H:i:s", gg('ow_day'.$i.'.sunrise'));
             $out["FORECAST"][$i]["sunset"]     = date("H:i:s", gg('ow_day'.$i.'.sunset'));
@@ -355,78 +353,71 @@ class app_openweather extends module
       return $urlIcon;
    }
    
-   /**
-    * Get wind direction name by direction in degree 
-    * @param mixed $degree Wind degree
-    * @return string
-    */
-   private static function getWindDirection($degree)
-   {
-	$windDirection = array('<#LANG_N#>', '<#LANG_NNE#>', '<#LANG_NE#>', '<#LANG_ENE#>', '<#LANG_E#>', '<#LANG_ESE#>', '<#LANG_SE#>', '<#LANG_SSE#>', '<#LANG_S#>', '<#LANG_SSW#>', '<#LANG_SW#>', '<#LANG_WSW#>', '<#LANG_W#>', '<#LANG_WNW#>', '<#LANG_NW#>', '<#LANG_NNW#>', '<#LANG_N#>');
-    $direction = $windDirection[round(intval($degree) / 22.5)];
-    
-    return $direction;
-   }
 
-   public function save_setting()
-   {
-      global $ow_forecast_interval;
-      global $ow_imagecache;
-      global $ow_update_interval;
-      global $ow_script;
-      global $ow_api_key;
-	  global $ow_city_id;
-      global $ow_city_name;
-      global $ow_city_lat;
-      global $ow_city_lon;
-	  global $api_method;	
-	  global $ow_ws_active;
+public function save_setting()
+	{
+		global $ow_forecast_interval;
+		global $ow_imagecache;
+		global $ow_update_interval;
+		global $ow_script;
+		global $ow_api_key;
+		global $ow_city_id;
+		global $ow_city_name;
+		global $ow_city_lat;
+		global $ow_city_lon;
+		global $api_method;
+		global $ow_round;	  
+		global $ow_ws_active;
 	  
-      if(!isset($ow_imagecache)) $ow_imagecache = 'off';
-      if(isset($ow_script)) sg('ow_setting.updScript', $ow_script);
-      if(isset($ow_api_key)) sg('ow_setting.api_key', $ow_api_key);
-	  if(isset($api_method)) sg('ow_setting.api_method', $api_method);
-	  if(isset($ow_ws_active)) $ow_ws_active = 1; else $ow_ws_active=0; sg('ow_setting.ow_ws_active', $ow_ws_active);
-	  
-	  
-      sg('ow_setting.ow_imagecache', $ow_imagecache);
-      sg('ow_setting.updatetime',$ow_update_interval);
-      sg('ow_setting.forecast_interval', $ow_forecast_interval);
-      sg('ow_setting.countTime', 1);
-      
-      $class = SQLSelectOne("SELECT ID FROM classes WHERE TITLE = 'openweather'");
-	  if ($api_method=='5d3h') $ow_forecast_interval=$ow_forecast_interval*8;
-      if ($class['ID']) 
-      {
-         SQLExec("DELETE FROM pvalues WHERE object_id IN (SELECT ID FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%')");
-         SQLExec("DELETE FROM properties WHERE object_id IN (SELECT ID FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%')");
-         SQLExec("DELETE FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%'");
-         
-         for ($i = 0; $i < $ow_forecast_interval; $i++)
-         {
-            $obj_rec = array();
-            $obj_rec['CLASS_ID'] = $class['ID'];
-            $obj_rec['TITLE'] = "ow_day" . $i;
-            $obj_rec['DESCRIPTION'] = "Forecast on ".($i+1)." period(s)";
-            $obj_rec['ID'] = SQLInsert('objects', $obj_rec);
-         }
-      }
-   }
+		if(!isset($ow_imagecache)) $ow_imagecache = 'off';
+		if(isset($ow_script)) sg('ow_setting.updScript', $ow_script);
+		if(isset($ow_api_key)) sg('ow_setting.api_key', $ow_api_key);
+		if(isset($api_method)) sg('ow_setting.api_method', $api_method);
+		if(isset($ow_round)) sg('ow_setting.ow_round', $ow_round);
+		if(isset($ow_ws_active)) $ow_ws_active = 1; else $ow_ws_active=0; sg('ow_setting.ow_ws_active', $ow_ws_active);
+
+		sg('ow_setting.ow_imagecache', $ow_imagecache);
+		sg('ow_setting.updatetime',$ow_update_interval);
+		sg('ow_setting.forecast_interval', $ow_forecast_interval);
+		sg('ow_setting.countTime', 1);
+		
+		$class = SQLSelectOne("SELECT ID FROM classes WHERE TITLE = 'openweather'");
+		if ($api_method=='5d3h') $ow_forecast_interval=$ow_forecast_interval*8;
+		if ($class['ID']) 
+		{
+			SQLExec("DELETE FROM pvalues WHERE object_id IN (SELECT ID FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%')");
+			SQLExec("DELETE FROM properties WHERE object_id IN (SELECT ID FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%')");
+			SQLExec("DELETE FROM objects WHERE CLASS_ID='" . $class['ID'] . "' AND TITLE LIKE 'ow_day%'");
+
+			for ($i = 0; $i < $ow_forecast_interval; $i++)
+			{
+
+			$obj_rec = array();
+			$obj_rec['CLASS_ID'] = $class['ID'];
+			$obj_rec['TITLE'] = "ow_day" . $i;
+			$obj_rec['DESCRIPTION'] = "Forecast on ".($i+1)." period(s)";
+			$obj_rec['ID'] = SQLInsert('objects', $obj_rec);
+			}
+		}
+
+
+	}
 
 public function get_setting(&$out)
-   {
-      $out["ow_city_name"] = gg('ow_city.name');
-	  $out["ow_city_id"] = gg('ow_city.id');
-	  $out["ow_city_lat"] = gg('ow_city.lat');
-	  $out["ow_city_lon"] = gg('ow_city.lon');
-      $out["ow_imagecache"] = gg('ow_setting.ow_imagecache');
-      $out["updatetime"] = gg('ow_setting.updatetime');
-      $out["script"] = gg('ow_setting.updScript');
-      $out["forecast_interval"] = gg('ow_setting.forecast_interval');
-      $out["ow_api_key"] = gg('ow_setting.api_key');
-	  $out["api_method"] = gg('ow_setting.api_method');	
-	  $out["ow_ws_active"] = gg('ow_setting.ow_ws_active');	
-   }
+	{
+		$out["ow_city_name"] = gg('ow_city.name');
+		$out["ow_city_id"] = gg('ow_city.id');
+		$out["ow_city_lat"] = gg('ow_city.lat');
+		$out["ow_city_lon"] = gg('ow_city.lon');
+		$out["ow_imagecache"] = gg('ow_setting.ow_imagecache');
+		$out["updatetime"] = gg('ow_setting.updatetime');
+		$out["script"] = gg('ow_setting.updScript');
+		$out["forecast_interval"] = gg('ow_setting.forecast_interval');
+		$out["ow_api_key"] = gg('ow_setting.api_key');
+		$out["api_method"] = gg('ow_setting.api_method');	
+		$out["ow_round"] = gg('ow_setting.ow_round');	
+		$out["ow_ws_active"] = gg('ow_setting.ow_ws_active');	
+	}
 
 public function get_cityId(&$out)
    {
@@ -476,38 +467,7 @@ public function save_cityId()
    }  
 
    
-   /**
-    * Convert Pressure from one system to another. 
-    * If error or system not found then function return current pressure.
-    * @param $vPressure 
-    * @param $vFrom
-    * @param $vTo
-    * @param $vPrecision
-    * @return
-    */
-   public static function ConvertPressure($pressure, $from, $to, $precision = 2)
-   {
-      if (empty($from) || empty($to) || empty($pressure))
-         return $pressure;
-      
-      if (!is_numeric($pressure))
-         return $pressure;
-      
-      $pressure = (float) $pressure;
-      $from     = strtolower($from);
-      $to       = strtolower($to);
-      
-      if ($from == "hpa" && $to == "mmhg")
-         return round($pressure * 0.75006375541921, $precision);
-      
-      if ($from == "mmhg" && $to == "hpa")
-         return round($pressure * 1.33322, $precision);
-      
-      return $pressure;
-   }
-   
-   
-   private static function GetCurrTemp($temp)
+private static function GetCurrTemp($temp)
    {
       $time = date("H");
       
@@ -560,48 +520,7 @@ public function save_cityId()
 		$info = date_sun_info($timeStamp, $cityLat, $cityLong);
 		return $info;
    }
-   
 
-   /**
-    * Get possibility freeze by evening and day temperature
-    * @param mixed $tempDay      Temperature at 13:00
-    * @param mixed $tempEvening  Termerature at 21:00
-    * @return double|int         Freeze possibility %
-    */
-   public function GetFreezePossibility($tempDay, $tempEvening)
-   {
-      // Температура растет или Температура ниже нуля
-      if ( $tempEvening >= $tempDay || $tempEvening < 0)
-         return -1;
-
-      $tempDelta = $tempDay - $tempEvening;
-
-      if ( $tempEvening < 11 && $tempDelta < 11 )
-      {
-         $t_graph = array(0 => array(0.375, 11, 0),
-                          1 => array(0.391, 8.7, 10),
-                          2 => array(0.382, 6.7, 20),
-                          3 => array(0.382, 4.7, 40),
-                          4 => array(0.391, 2.7, 60),
-                          5 => array(0.4, 1.6, 80));
-
-         $graphCount = count($t_graph);
-
-         for ($i = 0; $i < $graphCount; $i++)
-         {
-            $y1 = $t_graph[$i][0] * $tempDelta + $t_graph[$i][1];
-            
-            if ( $tempEvening > $y1)
-            {
-               return (int)$t_graph[$i][2];
-            }
-         }
-
-         return 100;
-      }
-      
-      return -1;
-   }
 private function ws_reg() 
 {
 	global $external_id;
