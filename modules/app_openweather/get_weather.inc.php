@@ -3,7 +3,7 @@
 		$apiKey = gg('ow_setting.api_key');
 		$api_method =gg('ow_setting.api_method'); 
 		$unit = 'metric';
-		$round=gg('ow_setting.ow_round'); 
+		$round=intval(gg('ow_setting.ow_round'));
 		
 		$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&appid=" . $apiKey;
 		$data =  getURL($query);		
