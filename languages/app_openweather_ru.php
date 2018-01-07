@@ -72,7 +72,40 @@ $dictionary = array(
 'OW_API_KEY' => 'Ключ API',
 'OW_CITYNAME' => 'Имя города',
 'OW_16D' => '16 дневный/на каждый день',
-'OW_5D3H' => '5 дневный/3 часовой прогноз'
+'OW_5D3H' => '5 дневный/3 часовой прогноз',
+
+//wind short
+'OW_WIND_N' => 'С',
+'OW_WIND_NNE' => 'ССЗ',
+'OW_WIND_NE' => 'СЗ',
+'OW_WIND_ENE' => 'ЗСЗ',
+'OW_WIND_E' => 'З',
+'OW_WIND_ESE' => 'ЗЮЗ',
+'OW_WIND_SE' => 'ЮЗ',
+'OW_WIND_SSE' => 'ЮЮЗ',
+'OW_WIND_S' => 'Ю',
+'OW_WIND_SSW' => 'ЮЮВ',
+'OW_WIND_WSW' => 'ВЮВ',
+'OW_WIND_W' => 'В',
+'OW_WIND_WNW' => 'ВСВ',
+'OW_WIND_NW' => 'СВ',
+'OW_WIND_NNW' => 'ССВ',
+//wind full
+'OW_WIND_FULL_N' => 'Север',
+'OW_WIND_FULL_NNE' => 'Северо-Северо-Запад',
+'OW_WIND_FULL_NE' => 'Северо-Запад',
+'OW_WIND_FULL_ENE' => 'Западо-Северо-Запад',
+'OW_WIND_FULL_E' => 'Запад',
+'OW_WIND_FULL_ESE' => 'Западо-Юго-Запад',
+'OW_WIND_FULL_SE' => 'Юго-Запад',
+'OW_WIND_FULL_SSE' => 'Юго-Юго-Запад',
+'OW_WIND_FULL_S' => 'Юг',
+'OW_WIND_FULL_SSW' => 'Юго-Юго-Восток',
+'OW_WIND_FULL_WSW' => 'Востоко-Юго-Восток',
+'OW_WIND_FULL_W' => 'Восток',
+'OW_WIND_FULL_WNW' => 'Востоко-Северо-Восток',
+'OW_WIND_FULL_NW' => 'Северо-Восток',
+'OW_WIND_FULL_NNW' => 'Северо-Северо-Восток',
 
 /* end module names */
 );

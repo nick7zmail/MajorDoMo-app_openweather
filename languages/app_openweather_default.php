@@ -72,7 +72,40 @@ $dictionary = array(
 'OW_API_KEY' => 'API Key',
 'OW_CITYNAME' => 'City name',
 'OW_16D' => '16 days/daily forecast API',
-'OW_5D3H' => '5 days/3 hour forecast API'
+'OW_5D3H' => '5 days/3 hour forecast API',
+
+//wind short
+'OW_WIND_N' => 'N',
+'OW_WIND_NNE' => 'NNE',
+'OW_WIND_NE' => 'NE',
+'OW_WIND_ENE' => 'ENE',
+'OW_WIND_E' => 'E',
+'OW_WIND_ESE' => 'ESE',
+'OW_WIND_SE' => 'SE',
+'OW_WIND_SSE' => 'SSE',
+'OW_WIND_S' => 'S',
+'OW_WIND_SSW' => 'SSW',
+'OW_WIND_WSW' => 'WSW',
+'OW_WIND_W' => 'W',
+'OW_WIND_WNW' => 'WNW',
+'OW_WIND_NW' => 'NW',
+'OW_WIND_NNW' => 'NNW',
+//wind full
+'OW_WIND_FULL_N' => 'North',
+'OW_WIND_FULL_NNE' => 'North-North-East',
+'OW_WIND_FULL_NE' => 'North-East',
+'OW_WIND_FULL_ENE' => 'East-North-East',
+'OW_WIND_FULL_E' => 'East',
+'OW_WIND_FULL_ESE' => 'East-South-East',
+'OW_WIND_FULL_SE' => 'South-East',
+'OW_WIND_FULL_SSE' => 'South-South-East',
+'OW_WIND_FULL_S' => 'South',
+'OW_WIND_FULL_SSW' => 'South-South-West',
+'OW_WIND_FULL_WSW' => 'West-South-West',
+'OW_WIND_FULL_W' => 'West',
+'OW_WIND_FULL_WNW' => 'West-North-West',
+'OW_WIND_FULL_NW' => 'North-West',
+'OW_WIND_FULL_NNW' => 'North-North-West',
 
 /* end module names */
 );

@@ -22,6 +22,8 @@
 		  sg('ow_fact.temperature', round($fact->temp, $round));
 		  sg('ow_fact.weather_type', $curWeather->weather[0]->description);
 		  sg('ow_fact.wind_direction', round($curWeather->wind->deg, $round));
+		  sg('ow_fact.wind_direction_text', getWindDirection(round($curWeather->wind->deg, $round)));
+		  sg('ow_fact.wind_direction_full', getWindDirection(round($curWeather->wind->deg, $round), true));
 		  sg('ow_fact.wind_speed',round($curWeather->wind->speed, $round));
 		  sg('ow_fact.humidity', round($fact->humidity, $round));
 		  sg('ow_fact.pressure', round($fact->pressure, $round));
@@ -77,6 +79,8 @@
 			 
 			 sg('ow_day'.$i.'.weather_type', $day->weather[0]->description);
 			 sg('ow_day'.$i.'.wind_direction', round($day->deg, $round));
+			 sg('ow_day'.$i.'.wind_direction_text', getWindDirection(round($day->deg, $round)));
+			 sg('ow_day'.$i.'.wind_direction_full', getWindDirection(round($day->deg, $round), true));
 			 sg('ow_day'.$i.'.wind_speed', round($day->speed, $round));
 			 if($day->humidity) sg('ow_day'.$i.'.humidity', round($day->humidity, $round));
 			 sg('ow_day'.$i.'.pressure', round($day->pressure, $round));
@@ -132,14 +136,16 @@
 			 
 			 sg('ow_day'.$i.'.weather_type', $day->weather[0]->description);
 			 sg('ow_day'.$i.'.wind_direction', round($day->wind->deg, $round));
+			 sg('ow_day'.$i.'.wind_direction_text', getWindDirection(round($day->wind->deg, $round)));
+			 sg('ow_day'.$i.'.wind_direction_full', getWindDirection(round($day->wind->deg, $round), true));
 			 sg('ow_day'.$i.'.wind_speed', round($day->wind->speed, $round));
 			 if($day->main->humidity) sg('ow_day'.$i.'.humidity', round($day->main->humidity, $round));
 			 sg('ow_day'.$i.'.pressure', round($day->main->pressure, $round));
 			 sg('ow_day'.$i.'.pressure_mmhg', round(ConvertPressure($day->main->pressure, "hpa", "mmhg", 2), $round));
 			 sg('ow_day'.$i.'.image', $day->weather[0]->icon);
 			 sg('ow_day'.$i.'.clouds', $day->clouds->all);
-			 //sg('ow_day'.$i.'.rain', isset($day->rain->3h) ? $day->rain->3h : 0);
-			 //sg('ow_day'.$i.'.snow', isset($day->snow->3h) ? $day->snow->3h : 0);
+			 sg('ow_day'.$i.'.rain', isset($day->rain->{'3h'}) ? $day->rain->{'3h'} : 0);
+			 sg('ow_day'.$i.'.snow', isset($day->snow->{'3h'}) ? $day->snow->{'3h'} : 0);
 			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
 			 
 			 $curTimeStamp = $day->dt;

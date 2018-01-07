@@ -72,7 +72,41 @@ $dictionary = array(
 'OW_API_KEY' => 'Ключ API',
 'OW_CITYNAME' => 'Назва міста',
 'OW_16D' => '16 денний/на кожен день',
-'OW_5D3H' => '5 денний/3 годинний прогноз'
+'OW_5D3H' => '5 денний/3 годинний прогноз',
+
+//wind short
+'OW_WIND_N' => 'С',
+'OW_WIND_NNE' => 'ССЗ',
+'OW_WIND_NE' => 'СЗ',
+'OW_WIND_ENE' => 'ЗСЗ',
+'OW_WIND_E' => 'З',
+'OW_WIND_ESE' => 'ЗЮЗ',
+'OW_WIND_SE' => 'ЮЗ',
+'OW_WIND_SSE' => 'ЮЮЗ',
+'OW_WIND_S' => 'Ю',
+'OW_WIND_SSW' => 'ЮЮВ',
+'OW_WIND_WSW' => 'ВЮВ',
+'OW_WIND_W' => 'В',
+'OW_WIND_WNW' => 'ВСВ',
+'OW_WIND_NW' => 'СВ',
+'OW_WIND_NNW' => 'ССВ',
+//wind full
+'OW_WIND_FULL_N' => 'Північ',
+'OW_WIND_FULL_NNE' => 'Північно-Північно-Захід',
+'OW_WIND_FULL_NE' => 'Північно-Захід',
+'OW_WIND_FULL_ENE' => 'Захід-Північно-Захід',
+'OW_WIND_FULL_E' => 'Захід',
+'OW_WIND_FULL_ESE' => 'Захід-Південний-Захід',
+'OW_WIND_FULL_SE' => 'Південно-Захід',
+'OW_WIND_FULL_SSE' => 'Південно-Південно-Захід',
+'OW_WIND_FULL_S' => 'Південь',
+'OW_WIND_FULL_SSW' => 'Південно-Південно-Схід',
+'OW_WIND_FULL_WSW' => 'Схід-Південь-Схід',
+'OW_WIND_FULL_W' => 'Схід',
+'OW_WIND_FULL_WNW' => 'Схід-Північ-Схід',
+'OW_WIND_FULL_NW' => 'Північ-Схід',
+'OW_WIND_FULL_NNW' => 'Північ-Північ-Схід',
+
 /* end module names */
 );
 
