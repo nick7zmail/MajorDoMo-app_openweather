@@ -6,7 +6,7 @@
 $dictionary = array(
 /* general */
 'OW_SCRIPT_NAME'=>'Назва сценарію',
-'OW_EXECUTE_AFTER_UPDATE'=>'Після оновлення ваиконати сценарій',
+'OW_EXECUTE_AFTER_UPDATE'=>'Після оновлення виконати сценарій',
 'OW_UPDATE_PERIOD'=>'Період оновлення',
 'OW_UPDATE_PERIOD_1HOUR' => 'кожну годину',
 'OW_UPDATE_PERIOD_2HOUR' => 'кожні дві години',
