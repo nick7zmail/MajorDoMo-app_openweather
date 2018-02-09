@@ -487,39 +487,7 @@ private static function GetCurrTemp($temp)
       {
          return $temp->night;
       }
-   }
-   
-   /**
-    * Get sun info by coords and timestamp
-    * 
-    * sunrise                     - Время восхода солнца
-    * sunset                      - Время заката
-    * transit                     - Время прохождения планеты через меридиан
-    * civil_twilight_begin        - Время начала гражданских сумерек
-    * civil_twilight_end          - Время конца гражданских сумерек
-    * nautical_twilight_begin     - Время начала навигационных сумерек
-    * nautical_twilight_end       - Время конца навигационных сумерек
-    * astronomical_twilight_begin - Время начала астрономических сумерек
-    * astronomical_twilight_end   - Время конца астрономических сумерек
-    * 
-    * @param mixed $cityLat GeoCoord Latitude
-    * @param mixed $cityLong GeoCoord Longitude
-    * @param mixed $timeStamp TimeStamp. 
-    * @return array|bool
-    */
-   private function GetSunInfo($timeStamp = -1)
-   {
-		$cityLat=gg('ow_city.lat');
-		$cityLong=gg('ow_city.lon');
-		if($timeStamp == '' or $timeStamp == -1) $timeStamp = time();
-		if (!isset($cityLat) || !isset($cityLong)) return FALSE;
-		if(empty($cityLat) || empty($cityLong)) {
-			DebMes('OpenWeather: '.'CityCoords not found');
-			return FALSE;
-		}
-		$info = date_sun_info($timeStamp, $cityLat, $cityLong);
-		return $info;
-   }
+   }   
 
 private function ws_reg() 
 {
@@ -625,7 +593,7 @@ private function ws_send_data(&$out, $send=false) {
     * Module installation routine
     * @access private
     */
-   public function install($parent_name = '')
+   public function install($data = '')
    {
 	  subscribeToEvent($this->name, 'HOURLY');
       $className = 'openweather';

@@ -15,10 +15,10 @@
                   <td>
                      <ul class="list-unstyled"  style="list-style:outside none none;padding-left:0;font-size:14px;">
                         <li><span class="label label-warning">[#temperature#]°C </span>&nbsp;<i>[#weatherType#]</i></li>
-                        <li><#LANG_OW_WEATHER_WIND#>: [#windDirection#]&nbsp;[#windSpeed#] м/с</li>
+                        <li><#LANG_WIND#>: [#windDirection#]&nbsp;[#windSpeed#] м/с</li>
                         <li><#LANG_OW_WEATHER_OVERCAST#>: [#clouds#]%</li>
-                        <li><#LANG_OW_PRESSURE#>: [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></li>
-                        <li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>
+                        <li><#LANG_PRESSURE#>: [#pressure_mmhg#] <#LANG_MMHG#></li>
+                        <li><#LANG_HUMIDITY#>: [#humidity#]%</li>
                         <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#]/[#sunset#]</li>
                         <li><#LANG_OW_SUNINFO_DAY_LENGTH#>: [#day_length#]</li>
                      </ul>
@@ -46,10 +46,10 @@
                   <td style="padding-bottom:1em;">
                      <ul class="list-unstyled" style="list-style:outside none none;padding-left:0;font-size:14px;">
                         <li><span class="label label-warning">[#temp_day#]°C </span><span class="label label-default">[#temp_night#]°C </span>&nbsp;<i>[#weatherType#]</i></li>
-                        <li><#LANG_OW_WEATHER_WIND#>: [#windDirection#] [#windSpeed#] м/с</li>
+                        <li><#LANG_WIND#>: [#windDirection#] [#windSpeed#] м/с</li>
                         <li><span><#LANG_OW_WEATHER_OVERCAST#>: [#clouds#]%</span></li>
-                        <li><span><#LANG_OW_PRESSURE#>: [#pressure_mmhg#] <#LANG_OW_PRESSURE_MMHG#></span></li>
-                        [#if humidity!=0#]<li><#LANG_OW_WEATHER_HUMIDITY#>: [#humidity#]%</li>[#endif humidity#]
+                        <li><span><#LANG_PRESSURE#>: [#pressure_mmhg#] <#LANG_MMHG#></span></li>
+                        [#if humidity!=0#]<li><#LANG_HUMIDITY#>: [#humidity#]%</li>[#endif humidity#]
                         [#if rain!="0"#]<li><#LANG_OW_WEATHER_RAIN#>: [#rain#]mm</li>[#endif rain#]
                         [#if snow!="0"#]<li><#LANG_OW_WEATHER_SNOW#>: [#snow#]mm</li>[#endif snow#]
                         <li><#LANG_OW_SUNINFO_DAY_SUNRISE_SUNSET#>: [#sunrise#]/[#sunset#]</li>
