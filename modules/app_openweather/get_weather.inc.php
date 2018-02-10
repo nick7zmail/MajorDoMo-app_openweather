@@ -35,7 +35,7 @@
 		  sg('ow_city.data_update', $date);
 
 		  
-		  $sunInfo = $this->GetSunInfo();
+		  $sunInfo = GetSunInfo();
 		  if ($sunInfo)
 		  {
 			 $sunRise = $sunInfo["sunrise"];
@@ -92,7 +92,7 @@
 			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
 			 
 			 $curTimeStamp = strtotime('+' . $i . ' day', time());
-			 $sunInfo = $this->GetSunInfo($curTimeStamp);
+			 $sunInfo = GetSunInfo($curTimeStamp);
 			 if ($sunInfo)
 			 {
 				$sunRise = $sunInfo["sunrise"];
@@ -149,7 +149,7 @@
 			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
 			 
 			 $curTimeStamp = $day->dt;
-			 $sunInfo = $this->GetSunInfo($curTimeStamp);
+			 $sunInfo = GetSunInfo($curTimeStamp);
 			 if ($sunInfo)
 			 {
 				$sunRise = $sunInfo["sunrise"];
