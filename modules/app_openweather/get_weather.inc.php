@@ -4,16 +4,23 @@
 		$api_method =gg('ow_setting.api_method'); 
 		$unit = 'metric';
 		$round=intval(gg('ow_setting.ow_round'));
-		
-		$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&appid=" . $apiKey;
-		$data =  getURL($query);		
-		$curWeather = json_decode($data);
-		if ($curWeather->cod == "404")
-		  {
-			 DebMes('OpenWeather: '.$weather->message);
-			 return;
-		  }
-		 
+		$ret=0;
+		while($ret<=3) {
+			$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=ru&appid=" . $apiKey;
+			$data =  getURL($query);		
+			$curWeather = json_decode($data);
+			if ($curWeather->cod == "404" || $curWeather->cod == "500") {
+				$err_msg=$weather->message;	
+			} else {
+				$err_msg='';
+				$ret=3;
+			}
+			$ret++;
+		}
+		if ($err_msg){
+			DebMes('OpenWeather: '.$err_msg);
+			return;				
+		}
 		if($curWeather!=false && !empty($curWeather)) {
 		  $fact = $curWeather->main;
 		  
