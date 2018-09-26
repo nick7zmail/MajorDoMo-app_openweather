@@ -434,7 +434,6 @@ public function get_cityId(&$out)
       if (!isset($country)) $country = '';
 	  $data = @file_get_contents(ROOT.'cms/cached/openweather/city_list.txt');
 	  $out["country"]=$country;
-      if (count($data) <= 0) return;
       $dataArray = explode("\n", $data);
 		  foreach($dataArray as $row) 
 		  {
