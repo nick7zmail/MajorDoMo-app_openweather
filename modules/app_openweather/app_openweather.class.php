@@ -293,9 +293,9 @@ class app_openweather extends module
             $out["FORECAST"][$i]["snow"]          = gg('ow_day'.$i.'.snow');
             $out["FORECAST"][$i]["freeze"]        = GetFreezePossibility($dayTemp, $eveTemp);
 			
-            $out["FORECAST"][$i]["sunrise"]    = date("H:i:s", gg('ow_day'.$i.'.sunrise'));
-            $out["FORECAST"][$i]["sunset"]     = date("H:i:s", gg('ow_day'.$i.'.sunset'));
-            $out["FORECAST"][$i]["day_length"] = gmdate("H:i", gg('ow_day'.$i.'.day_length')); 
+            $out["FORECAST"][$i]["sunrise"]    = date("H:i:s", (int)gg('ow_day'.$i.'.sunrise'));
+            $out["FORECAST"][$i]["sunset"]     = date("H:i:s", (int)gg('ow_day'.$i.'.sunset'));
+            $out["FORECAST"][$i]["day_length"] = gmdate("H:i", (int)gg('ow_day'.$i.'.day_length')); 
          }
       }
    }
