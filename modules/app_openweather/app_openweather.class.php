@@ -238,9 +238,9 @@ class app_openweather extends module
          $out["FACT"]["pressure_mmhg"] = ConvertPressure(gg('ow_fact.pressure'),"hpa", "mmhg");
          $out["FACT"]["data_update"]   = gg('ow_city.data_update');
          
-         $out["FACT"]["sunrise"]       = date("H:i:s", gg('ow_fact.sunrise'));
-         $out["FACT"]["sunset"]        = date("H:i:s", gg('ow_fact.sunset'));
-         $out["FACT"]["day_length"]    = gmdate("H:i", gg('ow_fact.day_length'));
+         $out["FACT"]["sunrise"]       = date("H:i:s", (int)gg('ow_fact.sunrise'));
+         $out["FACT"]["sunset"]        = date("H:i:s", (int)gg('ow_fact.sunset'));
+         $out["FACT"]["day_length"]    = gmdate("H:i", (int)gg('ow_fact.day_length'));
       }
       
       if ($forecast > 0)
