@@ -1,0 +1,13 @@
+[#if FORECAST#]
+                [#begin FORECAST#]
+<div>
+                        <span>[#date#]</span>
+    <div style="float:left;padding:5px"><img src="[#weatherIcon#]"></div>
+                        <ul class="list-unstyled" style="list-style:outside none none;padding-left:0;font-size:14px;">
+                            <li><span class="label label-warning">[#temp_day#]&deg;C </span>
+                             <span class="label label-default">[#temp_night#]&deg;C </span>&nbsp;<i>[#weatherType#]</i></li>
+                            <li><#LANG_WIND#>: [#windDirection#] [#windSpeed#] м/с</li>
+                        </ul>
+</div>
+                [#end FORECAST#]
+[#endif FORECAST#]

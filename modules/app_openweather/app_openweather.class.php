@@ -193,6 +193,10 @@ class app_openweather extends module
    {
       $ow_city_id   = gg('ow_city.id');
       $ow_city_name = gg('ow_city.name');
+
+       $widget_type=gr('widget_type','int');
+       $out['WIDGET_TYPE']=$widget_type;
+       
       
       if ($ow_city_id != '' && $ow_city_name != '')
       {
