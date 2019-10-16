@@ -1,3 +1,12 @@
+[#if WIDGET_TYPE="1"#]
+ [#inc widget_1.html#]
+[#endif WIDGET_TYPE#]
+
+[#if WIDGET_TYPE="2"#]
+[#inc widget_2.html#]
+[#endif WIDGET_TYPE#]
+
+[#if WIDGET_TYPE="0"#]
 <div>
    <#LANG_OW_WEATHER_IN_CITY#>&nbsp;[#ow_city_name#]&nbsp;<#LANG_OW_WEATHER_ON_DATE#>&nbsp;[#data_update#]
 </div>
@@ -64,3 +73,4 @@
    </div>
 </div>
 [#endif FORECAST#]
+[#endif WIDGET_TYPE#]
