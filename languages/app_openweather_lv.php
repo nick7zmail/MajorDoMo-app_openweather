@@ -1,12 +1,12 @@
 <?php
 /**
- * Russian language file for OpenWeatherMap module
+ * Latvian language file for OpenWeatherMap module
  */
 
 $dictionary = array(
 /* general */
-'OW_SCRIPT_NAME'=>'Scenārija nosukums',
-'OW_EXECUTE_AFTER_UPDATE'=>'Execute script after update',
+'OW_SCRIPT_NAME'=>'Scenārija nosaukums',
+'OW_EXECUTE_AFTER_UPDATE'=>'Izpildīt skriptu pēc atjaunošanas',
 'OW_UPDATE_PERIOD'=>'Atjaunošanās periods',
 'OW_UPDATE_PERIOD_1HOUR' => 'Reizi stunda',
 'OW_UPDATE_PERIOD_2HOUR' => 'Reizi 2 stundās',
@@ -66,26 +66,26 @@ $dictionary = array(
 'OW_SUNINFO_DAY_SUNRISE_SUNSET' => 'Saullēkts/Saulriets',
 'OW_API_KEY' => 'API Atslēga',
 'OW_CITYNAME' => 'Pilsētas nosaukums',
-'OW_16D' => '16 days/daily forecast API',
-'OW_5D3H' => '5 days/3 hour forecast API',
+'OW_16D' => '16 Dienu/dienu forecast API',
+'OW_5D3H' => '5 Dienu/3 Stundu forecast API',
 
 //wind full
 'OW_WIND_FULL_N' => 'Ziemeļi',
-'OW_WIND_FULL_NNE' => 'North-North-East',
-'OW_WIND_FULL_NE' => 'North-East',
-'OW_WIND_FULL_ENE' => 'East-North-East',
-'OW_WIND_FULL_E' => 'East',
-'OW_WIND_FULL_ESE' => 'East-South-East',
-'OW_WIND_FULL_SE' => 'South-East',
-'OW_WIND_FULL_SSE' => 'South-South-East',
-'OW_WIND_FULL_S' => 'South',
-'OW_WIND_FULL_SSW' => 'South-South-West',
-'OW_WIND_FULL_SW' => 'South-West',
-'OW_WIND_FULL_WSW' => 'West-South-West',
-'OW_WIND_FULL_W' => 'West',
-'OW_WIND_FULL_WNW' => 'West-North-West',
-'OW_WIND_FULL_NW' => 'North-West',
-'OW_WIND_FULL_NNW' => 'North-North-West',
+'OW_WIND_FULL_NNE' => 'Ziemeļi-ziemeļaustrumi',
+'OW_WIND_FULL_NE' => 'Ziemeļaustrumi',
+'OW_WIND_FULL_ENE' => 'EAustrumi-ziemeļrietumi',
+'OW_WIND_FULL_E' => 'Austrumi',
+'OW_WIND_FULL_ESE' => 'Austrumi-dienvidaustrumi',
+'OW_WIND_FULL_SE' => 'Dienvidaustrumi',
+'OW_WIND_FULL_SSE' => 'Dienvidi-dienvidaustrumi',
+'OW_WIND_FULL_S' => 'Dienvidi',
+'OW_WIND_FULL_SSW' => 'Dienvidi-dienvidrietumi',
+'OW_WIND_FULL_SW' => 'Dienvidrietumi',
+'OW_WIND_FULL_WSW' => 'Rietumi-dienvidrietumi',
+'OW_WIND_FULL_W' => 'Rietumi',
+'OW_WIND_FULL_WNW' => 'Rietumi-ziemeļrietumi',
+'OW_WIND_FULL_NW' => 'Ziemeļrietumi',
+'OW_WIND_FULL_NNW' => 'Ziemeļi-ziemeļrietumi',
 
 /* end module names */
 );
