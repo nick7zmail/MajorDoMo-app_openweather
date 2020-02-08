@@ -79,7 +79,7 @@
    </div>
 	<div class="form-group">
 	 <label class="col-md-3"[#if ERR_METHOD#] style="color:red;font-weight:bold"[#endif#]>
-	 <#LANG_HCB#>ow_apimethod<#LANG_HCE#> Метод API
+	<#LANG_HCB#>ow_apimethod<#LANG_HCE#> <#LANG_OW_API_METHOD#> 
 	 </label>
 	 <div class="col-md-4">
 			<input type="radio" name="api_method" value="16d"[#if api_method=="16d"#] checked[#endif#]> <#LANG_OW_16D#><br>
@@ -88,7 +88,7 @@
 	</div>
 	<div class="form-group">
 		<label class="col-md-3">
-		<#LANG_HCB#>ow_round<#LANG_HCE#> Округлить значения
+		<#LANG_HCB#>ow_round<#LANG_HCE#>  <#LANG_OW_ROUND#>
 		</label>
 		<div class="btn-group col-md-4" data-toggle="buttons">
 			<label class="btn [#if ow_round=="0"#]btn-primary[#else#]btn-default[#endif#]">
