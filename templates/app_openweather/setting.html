@@ -1,4 +1,4 @@
-   
+
 <form action="?" method="get" class="form-horizontal" name="save_setting">
 [#if ow_api_key!="" && api_method!=""#]
    <div class="form-group">
@@ -79,7 +79,7 @@
    </div>
 	<div class="form-group">
 	 <label class="col-md-3"[#if ERR_METHOD#] style="color:red;font-weight:bold"[#endif#]>
-	<#LANG_HCB#>ow_apimethod<#LANG_HCE#> <#LANG_OW_API_METHOD#> 
+	<#LANG_HCB#>ow_apimethod<#LANG_HCE#> <#LANG_OW_API_METHOD#>
 	 </label>
 	 <div class="col-md-4">
 			<input type="radio" name="api_method" value="16d"[#if api_method=="16d"#] checked[#endif#]> <#LANG_OW_16D#><br>
@@ -92,7 +92,7 @@
 		</label>
 		<div class="btn-group col-md-4" data-toggle="buttons">
 			<label class="btn [#if ow_round=="0"#]btn-primary[#else#]btn-default[#endif#]">
-				<input type="radio" name="ow_round" value="0" [#if ow_round=="0"#] checked[#endif#]> До целого
+				<input type="radio" name="ow_round" value="0" [#if ow_round=="0"#] checked[#endif#]> <#LANG_OW_UNTIL_WHOLE#>
 			</label>
 			<label class="btn [#if ow_round=="1"#]btn-primary[#else#]btn-default[#endif#]">
 				<input type="radio" name="ow_round" value="1" [#if ow_round=="1"#] checked[#endif#]> .0
@@ -103,7 +103,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-	   <label class="col-md-3"><#LANG_HCB#>ow_ws<#LANG_HCE#> Режим погодной станции</label>
+	   <label class="col-md-3"><#LANG_HCB#>ow_ws<#LANG_HCE#> <#LANG_OW_WEATHER_STATION_MODE#></label>
 	   <div class="col-lg-2">
 		<input type="checkbox" class="form-control" name="ow_ws_active" [#if ow_ws_active==1 #] checked[#else#] [#endif#]/>
 	   </div>
