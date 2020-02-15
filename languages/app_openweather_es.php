@@ -65,6 +65,10 @@ $dictionary = array(
 'OW_SUNINFO_DAY_LENGTH' => 'Day Length',
 'OW_SUNINFO_DAY_SUNRISE_SUNSET' => 'Amanecer/Anochecer',
 'OW_API_KEY' => 'API Key',
+'OW_API_METHOD' => 'API Method',
+'OW_ROUND' => 'Round',
+'OW_UNTIL_WHOLE' => 'Until whole',
+'OW_WEATHER_STATION_MODE' => 'Weather station mode',
 'OW_CITYNAME' => 'Nombre de la ciudad',
 'OW_16D' => '16 días/pronóstico diario API',
 'OW_5D3H' => '5 días/3 horas pronóstico API',
@@ -97,4 +101,3 @@ foreach ($dictionary as $k=>$v)
       define('LANG_' . $k, $v);
    }
 }
-
