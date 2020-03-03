@@ -1,22 +1,25 @@
 <?php
 		if (!isset($cityID)) return null;
-		
+
 		$lang = SETTINGS_SITE_LANGUAGE;
 		if ($lang == 'ua') {
 			$lang = 'uk';
 		}
-		
+		if ($lang == 'lv') {
+			$lang = 'la';
+		}
+
 		$apiKey = gg('ow_setting.api_key');
-		$api_method =gg('ow_setting.api_method'); 
+		$api_method =gg('ow_setting.api_method');
 		$unit = 'metric';
 		$round=intval(gg('ow_setting.ow_round'));
 		$ret=0;
 		while($ret<=3) {
 			$query = "http://api.openweathermap.org/data/2.5/weather?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=" . $lang . "&appid=" . $apiKey;
-			$data =  getURL($query);		
+			$data =  getURL($query);
 			$curWeather = json_decode($data);
 			if ($curWeather->cod == "404" || $curWeather->cod == "500") {
-				$err_msg=$weather->message;	
+				$err_msg=$weather->message;
 			} else {
 				$err_msg='';
 				$ret=3;
@@ -25,13 +28,13 @@
 		}
 		if ($err_msg){
 			DebMes('OpenWeather: '.$err_msg);
-			return;				
+			return;
 		}
 		if($curWeather!=false && !empty($curWeather)) {
 		  $fact = $curWeather->main;
-		  
+
 		  $date = date("d.m.Y G:i:s T Y", $curWeather->dt);
-		 
+
 		  sg('ow_fact.temperature', round($fact->temp, $round));
 		  sg('ow_fact.weather_type', $curWeather->weather[0]->description);
 		  sg('ow_fact.wind_direction', round($curWeather->wind->deg, $round));
@@ -47,7 +50,7 @@
 		  sg('ow_fact.condCode', $curWeather->weather[0]->id);
 		  sg('ow_city.data_update', $date);
 
-		  
+
 		  $sunInfo = GetSunInfo();
 		  if ($sunInfo)
 		  {
@@ -63,9 +66,9 @@
 			 sg('ow_fact.civil_twilight_end', $sunInfo["civil_twilight_end"]);
 		  }
 		}
-		
-		
-		
+
+
+
 	if($api_method=='16d') {
 		$query= "http://api.openweathermap.org/data/2.5/forecast/daily?id=" . $cityID . "&mode=json&units=" . $unit . "&lang=" . $lang . "&cnt=16&appid=" . $apiKey;
 		$data = getURL($query);
@@ -81,7 +84,7 @@
 		  {
 			 $date = date("d.m.Y", $day->dt);
 			 sg('ow_day'.$i.'.date', $date);
-			 
+
 			 sg('ow_day'.$i.'.temperature', round(app_openweather::GetCurrTemp($day->temp), $round));
 			 sg('ow_day'.$i.'.temp_morn', round($day->temp->morn, $round));
 			 sg('ow_day'.$i.'.temp_day', round($day->temp->day, $round));
@@ -89,7 +92,7 @@
 			 sg('ow_day'.$i.'.temp_night', round($day->temp->night,$round));
 			 sg('ow_day'.$i.'.temp_min', round($day->temp->min, $round));
 			 sg('ow_day'.$i.'.temp_max', round($day->temp->max, $round));
-			 
+
 			 sg('ow_day'.$i.'.weather_type', $day->weather[0]->description);
 			 sg('ow_day'.$i.'.wind_direction', round($day->deg, $round));
 			 sg('ow_day'.$i.'.wind_direction_text', getWindDirection(round($day->deg, $round)));
@@ -103,7 +106,7 @@
 			 sg('ow_day'.$i.'.rain', isset($day->rain) ? $day->rain : 0);
 			 sg('ow_day'.$i.'.snow', isset($day->snow) ? $day->snow : 0);
 			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
-			 
+
 			 $curTimeStamp = strtotime('+' . $i . ' day', time());
 			 $sunInfo = GetSunInfo($curTimeStamp);
 			 if ($sunInfo)
@@ -111,7 +114,7 @@
 				$sunRise = $sunInfo["sunrise"];
 				$sunSet = $sunInfo["sunset"];
 				$dayLength = $sunSet - $sunRise;
-				
+
 				sg('ow_day'.$i.'.sunrise', $sunRise);
 				sg('ow_day'.$i.'.sunset', $sunSet);
 				sg('ow_day'.$i.'.day_length', $dayLength);
@@ -119,7 +122,7 @@
 				sg('ow_day'.$i.'.civil_twilight_begin', $sunInfo["civil_twilight_begin"]);
 				sg('ow_day'.$i.'.civil_twilight_end', $sunInfo["civil_twilight_end"]);
 			 }
-			 
+
 			 $i++;
 		  }
 	  }
@@ -138,7 +141,7 @@
 		  {
 			 $date = date("d.m.Y (H:i)", $day->dt);
 			 sg('ow_day'.$i.'.date', $date);
-			 
+
 			 sg('ow_day'.$i.'.temperature', round($day->main->temp, $round));
 			 sg('ow_day'.$i.'.temp_morn', 'na');
 			 sg('ow_day'.$i.'.temp_day', 'na');
@@ -146,7 +149,7 @@
 			 sg('ow_day'.$i.'.temp_night', 'na');
 			 sg('ow_day'.$i.'.temp_min', round($day->main->temp_min, $round));
 			 sg('ow_day'.$i.'.temp_max', round($day->main->temp_max, $round));
-			 
+
 			 sg('ow_day'.$i.'.weather_type', $day->weather[0]->description);
 			 sg('ow_day'.$i.'.wind_direction', round($day->wind->deg, $round));
 			 sg('ow_day'.$i.'.wind_direction_text', getWindDirection(round($day->wind->deg, $round)));
@@ -160,7 +163,7 @@
 			 sg('ow_day'.$i.'.rain', isset($day->rain->{'3h'}) ? $day->rain->{'3h'} : 0);
 			 sg('ow_day'.$i.'.snow', isset($day->snow->{'3h'}) ? $day->snow->{'3h'} : 0);
 			 sg('ow_day'.$i.'.condCode', $day->weather[0]->id);
-			 
+
 			 $curTimeStamp = $day->dt;
 			 $sunInfo = GetSunInfo($curTimeStamp);
 			 if ($sunInfo)
@@ -168,7 +171,7 @@
 				$sunRise = $sunInfo["sunrise"];
 				$sunSet = $sunInfo["sunset"];
 				$dayLength = $sunSet - $sunRise;
-				
+
 				sg('ow_day'.$i.'.sunrise', $sunRise);
 				sg('ow_day'.$i.'.sunset', $sunSet);
 				sg('ow_day'.$i.'.day_length', $dayLength);

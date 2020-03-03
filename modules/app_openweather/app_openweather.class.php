@@ -23,7 +23,7 @@ class app_openweather extends module
 
       if(isset($this->id))
          $p["id"] = $this->id;
-      
+
       if(isset($this->view_mode))
          $p["view_mode"] = $this->view_mode;
 
