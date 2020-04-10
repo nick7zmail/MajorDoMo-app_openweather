@@ -336,7 +336,7 @@ class app_openweather extends module
     */
    private static function getWeatherIcon($image)
    {
-      if ($image == '') retrun;
+      if ($image == '') return;
 
       $fileName = $image . '.png';
       $urlIcon = "http://openweathermap.org/img/w/" . $fileName;
